@@ -7,6 +7,7 @@
         <entry key="check-test-classes" value="false" />
         <entry key="location-0" value="PROJECT_RELATIVE:$PRJ_DIR$/../../../Documents/GTFall2016/CS1332/HW1/CS1332-checkstyle.xml:CS1332check" />
         <entry key="location-1" value="CLASSPATH:/sun_checks.xml:The default Checkstyle rules" />
+        <entry key="scan-before-checkin" value="false" />
         <entry key="suppress-errors" value="false" />
         <entry key="thirdparty-classpath" value="" />
       </map>
