@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/complete.iml" filepath="$PROJECT_DIR$/.idea/modules/complete.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/complete_main.iml" filepath="$PROJECT_DIR$/.idea/modules/complete_main.iml" group="complete" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/complete_test.iml" filepath="$PROJECT_DIR$/.idea/modules/complete_test.iml" group="complete" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SheeeeetsNew.iml" filepath="$PROJECT_DIR$/.idea/modules/SheeeeetsNew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SheeeeetsNew_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SheeeeetsNew_main.iml" group="SheeeeetsNew" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SheeeeetsNew_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SheeeeetsNew_test.iml" group="SheeeeetsNew" />
     </modules>
   </component>
 </project>
