@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+const hash = require('js-hash-code');
+
 const RegisterModal = class extends Component {
 	constructor(...args) {
     	super(...args);
@@ -20,12 +22,14 @@ const RegisterModal = class extends Component {
 	 }
 	submitUser = () => {
 		if(this.state.name.length < 1 || this.state.pass.length < 1) return;
-		fetch("/api/user", {
+		fetch("http://localhost:8080/register?username=" + this.state.name + "@password=" + hash(this.state.pass), {
         method: "POST",
         headers: new Headers({
 	      'Content-Type': 'application/json',
 	      Accept: 'application/json',
+	      'Access-Control-Allow-Origin': 'http://localhost:8080',
 	    }),
+	    mode: 'no-cors',
         body: JSON.stringify({
         	name : this.state.name,
         	pass : this.state.pass

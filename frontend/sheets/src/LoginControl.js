@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NameForm from './NameForm.js';
 
+const hash = require('js-hash-code');
 
 const LoginControl = class extends Component {
   constructor(props) {
@@ -14,8 +15,9 @@ const LoginControl = class extends Component {
                     id: ""};
   }
   request = function(user,password) {
-      return fetch("/api/user/" + user + "/" + password, {
+      return fetch("http://localhost:8080/register?username=" + this.state.name + "@password=" + hash(this.state.pass), {
         method: "GET",
+        mode: 'no-cors',
       })
       .then( response => {
         if(!response.ok) {
