@@ -15,7 +15,7 @@ const LoginControl = class extends Component {
                     id: ""};
   }
   request = function(user,password) {
-      return fetch("http://localhost:8080/register?username=" + this.state.name + "@password=" + hash(this.state.pass), {
+      return fetch("http://localhost:8080/register?username=" + this.state.name + "&password=" + hash(this.state.pass), {
         method: "GET",
         mode: 'no-cors',
       })
