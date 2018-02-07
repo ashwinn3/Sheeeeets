@@ -22,7 +22,7 @@ const RegisterModal = class extends Component {
 	 }
 	submitUser = () => {
 		if(this.state.name.length < 1 || this.state.pass.length < 1) return;
-		fetch("http://localhost:8080/register?username=" + this.state.name + "&password=" + hash(this.state.pass) + "&email=" + "something@someone.com", {
+		fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username=" + this.state.name + "&password=" + hash(this.state.pass) + "&email=" + "something@someone.com", {
         method: "POST",
         headers: new Headers({
 	      'Content-Type': 'application/json',
