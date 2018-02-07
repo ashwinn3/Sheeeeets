@@ -29,13 +29,13 @@ const RegisterModal = class extends Component {
 	      Accept: 'application/json',
 	      'Access-Control-Allow-Origin': 'http://localhost:8080',
 	    }),
-	    mode: 'no-cors',
         body: JSON.stringify({
         	name : this.state.name,
         	pass : this.state.pass
         	})
      	})
 	    .then( response => {
+	        console.log(response);
 	        if(!response.ok) {
 	          throw Error("API call failed");
 	        }
@@ -43,6 +43,8 @@ const RegisterModal = class extends Component {
 	    })
 	    .then(r => r.json())
 	    .then(response => {
+	            console.log(response);
+
 	    	this.props.toggleRegister();
 	    })
 	    .catch((e) => {

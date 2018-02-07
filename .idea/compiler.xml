@@ -21,6 +21,8 @@
     <bytecodeTargetLevel>
       <module name="complete_main" target="1.8" />
       <module name="complete_test" target="1.8" />
+      <module name="SheeeeetsFin_main" target="1.8" />
+      <module name="SheeeeetsFin_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

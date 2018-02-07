@@ -24,12 +24,12 @@ const Toolbar = withRouter(class extends Component {
 
                   <div className="columns">
                     <div className="column">
-                      <div className="title">RandomForum</div>
+                      <div className="title">Sheets</div>
                     </div>
                     <div className="column">
                       <div className="subtitle is-pulled-right">
 
-                        You are signed in as {this.props.userName}
+                        You are signed in as test_user
 
                       </div>
 
