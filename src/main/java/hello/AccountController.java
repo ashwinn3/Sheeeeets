@@ -15,7 +15,7 @@ public class AccountController {
 
     /*
      * pass in username of user and new email address to update user account
-     * ex: http://localhost:8080/changeEmail?username=<user>&newEmail=<email>
+     * ex: http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changeEmail?username=<user>&newEmail=<email>
      * returns response: success even if passed in user does not exist
      */
     @RequestMapping("/changeEmail")
@@ -34,7 +34,7 @@ public class AccountController {
 
     /*
      * pass in username of user and new hashed password to update user account
-     * ex: http://localhost:8080/changePassword?username=<user>&newPassword=<hash(password)>
+     * ex: http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=<user>&newPassword=<hash(password)>
      * returns response: success even if passed in user does not exist
      */
     @RequestMapping("/changePassword")
