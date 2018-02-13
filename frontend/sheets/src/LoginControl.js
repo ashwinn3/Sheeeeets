@@ -15,22 +15,36 @@ const LoginControl = class extends Component {
                     id: ""};
   }
   request = function(user,password) {
-      return fetch("http://localhost:8080/register?username=" + this.state.name + "&password=" + hash(this.state.pass), {
+//       if(user === "test_user" && password == "pass") {
+//        return {login: true};
+//       } else {
+//        return {login: false};
+//       }
+
+
+
+      return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/login?username=" + this.state.name + "&password=" + hash(this.state.pass), {
         method: "GET",
-        mode: 'no-cors',
       })
-      .then( response => {
-        if(!response.ok) {
-          throw Error("API call failed");
-        }
-        return response;
-      })
+//      .then( response => {
+//        console.log("response:", response);
+//        if(!response.ok) {
+//          throw Error("API call failed");
+//        }
+//        return response;
+//      })
       .then(r => r.json())
       .then(response => {
-        if(!response.login) {
-          throw Error("Wrong Password");
+        console.log('Response: '+ response['response'])
+        if (response['response'] === "Login Success") {
+            return true;
+        } else {
+            return false;
         }
-        return response;
+//        if(!response.login) {
+//          throw Error("Wrong Password");
+//        }
+        //return response;
       })
       .catch((e) => {
           console.log("Error occused while logging in:"+ e);
@@ -38,26 +52,43 @@ const LoginControl = class extends Component {
       );
   }
 
+
+
   handleLoginClick() {
     const scope = this;
     this.setState({isLoggedIn: true});
-    this.request(this.state.name,this.state.pass).then(
-      (r) => {
-        if (r && r.login) {
-          this.setState({
+    this.request(this.state.name,this.state.pass).then(function(response) {
+        if (response) {
+          scope.setState({
             isLoggedIn: true,
             loginFailed : false,
-            id: r.id
+            id: 'user-id'
           })
-          scope.props.method(r);
+          scope.props.method({login: true});
         } else {
-          this.setState({
+          scope.setState({
             loginFailed : true
           });
-          
+
         }
-      }
-    )
+    });
+//    .then(
+//      (r) => {
+//        if (r && r.login) {
+//          this.setState({
+//            isLoggedIn: true,
+//            loginFailed : false,
+//            id: r.id
+//          })
+//          scope.props.method(r);
+//        } else {
+//          this.setState({
+//            loginFailed : true
+//          });
+//
+//        }
+//      }
+//    )
   }
 
 
@@ -68,9 +99,8 @@ const LoginControl = class extends Component {
   }
 
   render() {
-    let failedText = null
+    let failedText = null;
     if (this.state.loginFailed) failedText = <div className="has-text-danger is-size-4 has-text-weight-bold">Login Failed</div>;
-
     return (
       <div>
         <h1 className="title">Please sign in.</h1>
@@ -78,7 +108,7 @@ const LoginControl = class extends Component {
         <br/>
         <div className="field is-grouped">
           <p className="control">
-            <button  onClick={this.handleLoginClick} className="button is-success">Login</button>
+            <button onClick={this.handleLoginClick} className="button is-success">Login</button>
           </p>
           <p className="control">
             <button onClick={this.props.toggleRegister} className="button is-link">Register</button>

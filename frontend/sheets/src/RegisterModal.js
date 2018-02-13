@@ -22,20 +22,20 @@ const RegisterModal = class extends Component {
 	 }
 	submitUser = () => {
 		if(this.state.name.length < 1 || this.state.pass.length < 1) return;
-		fetch("http://localhost:8080/register?username=" + this.state.name + "&password=" + hash(this.state.pass) + "&email=" + "something@someone.com", {
+		fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username=" + this.state.name + "&password=" + hash(this.state.pass) + "&email=" + "something@someone.com", {
         method: "POST",
         headers: new Headers({
 	      'Content-Type': 'application/json',
 	      Accept: 'application/json',
 	      'Access-Control-Allow-Origin': 'http://localhost:8080',
 	    }),
-	    mode: 'no-cors',
         body: JSON.stringify({
         	name : this.state.name,
         	pass : this.state.pass
         	})
      	})
 	    .then( response => {
+	        console.log(response);
 	        if(!response.ok) {
 	          throw Error("API call failed");
 	        }
@@ -43,6 +43,8 @@ const RegisterModal = class extends Component {
 	    })
 	    .then(r => r.json())
 	    .then(response => {
+	            console.log(response);
+
 	    	this.props.toggleRegister();
 	    })
 	    .catch((e) => {
