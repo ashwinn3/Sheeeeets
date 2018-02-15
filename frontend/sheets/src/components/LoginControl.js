@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NameForm from './NameForm.js';
+import NameForm from '../widgets/NameForm.js';
 
 const hash = require('js-hash-code');
 

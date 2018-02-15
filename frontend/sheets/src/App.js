@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import './App.css';
 import 'bulma/css/bulma.css';
 
-import Toolbar from './Toolbar.js';
-import LoginPage from './LoginPage.js';
-import NotFound from './NotFound.js';
-import LoginSwitch from './LoginSwitch.js';
-import Something from './Something.js';
+import Toolbar from './components/Toolbar.js';
+import LoginPage from './pages/LoginPage.js';
+import NotFound from './pages/NotFound.js';
+import LoginSwitch from './components/LoginSwitch.js';
+import Something from './components/Something.js';
 
 
 const RedirectHome = class extends Component {

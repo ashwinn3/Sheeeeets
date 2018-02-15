@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
-import ToolbarButton from "./ToolbarButton.js"
+import ToolbarButton from "../widgets/ToolbarButton.js"
 
 
 const Toolbar = withRouter(class extends Component {

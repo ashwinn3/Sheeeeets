@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const Something2 = class extends Component {
+const Something_view = class extends Component {
 
     constructor(...args) {
         super(...args);
@@ -27,5 +27,5 @@ const Something2 = class extends Component {
 }
 
 
-export default Something2;
+export default Something_view;
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login } from './actions'
-import Something2 from './Something2'
+import { login } from '../states/actions'
+import Something_view from './Something_view'
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -20,6 +20,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const Something = connect(mapStateToProps, mapDispatchToProps)(Something2)
+const Something = connect(mapStateToProps, mapDispatchToProps)(Something_view)
 
 export default Something
