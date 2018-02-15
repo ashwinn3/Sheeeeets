@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login } from '../states/actions'
+import { login, attemptLogin } from '../states/actions'
 import Something_view from './Something_view'
 
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('State');
-  console.log(state);
+
   return {
-    string: state.sessionControl.id
+    string: state.session.id,
+
   }
 }
 
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClick: (val) => {
       dispatch(login(val))
+    },
+    onClick2: (val) => {
+      dispatch(attemptLogin(val))
     }
   }
 }

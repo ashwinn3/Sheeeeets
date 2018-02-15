@@ -24,7 +24,7 @@ const LoginControl = class extends Component {
 
         return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/login?username=" + this.state.name + "&password=" + hash(this.state.pass), {
                 method: "GET",
-            })    
+            })
 //          .then( response => {
 //              console.log("response:", response);
 //              if(!response.ok) {

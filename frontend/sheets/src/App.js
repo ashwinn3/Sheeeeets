@@ -69,7 +69,7 @@ class App extends Component {
         } else {
             elements =
                 <div>
-                    <Something/>
+                    <Something someProp='a value'/>
                     <Switch>
                         <Route exact path="/login" render={(props) => (
                             <LoginPage {...props} method={this.handelLogin} />)} />
