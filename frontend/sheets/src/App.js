@@ -7,6 +7,7 @@ import Toolbar from './Toolbar.js';
 import LoginPage from './LoginPage.js';
 import NotFound from './NotFound.js';
 import LoginSwitch from './LoginSwitch.js';
+import Something from './Something.js';
 
 
 const RedirectHome = class extends Component {
@@ -67,11 +68,15 @@ class App extends Component {
                 </div>
             );
         } else {
-            elements =  <Switch>
-                    <Route exact path="/login" render={(props) => (
-                        <LoginPage {...props} method={this.handelLogin} />)} />
-                    <Route component={LoginSwitch}/>
-                </Switch>;
+            elements =
+                <div>
+                    <Something/>
+                    <Switch>
+                        <Route exact path="/login" render={(props) => (
+                            <LoginPage {...props} method={this.handelLogin} />)} />
+                        <Route component={LoginSwitch}/>
+                    </Switch>;
+                </div>
         }
         return (
             <BrowserRouter>
@@ -80,6 +85,7 @@ class App extends Component {
                 </div>
             </BrowserRouter>
         );
+
     }
 }
 
