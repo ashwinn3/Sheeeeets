@@ -8,11 +8,22 @@ import LoginPage from './pages/LoginPage.js';
 import Dashboard from './pages/Dashboard.js';
 import NotFound from './pages/NotFound.js';
 
+import {  } from './states/actions'
+
+
 const mapStateToProps = (state, ownProps) => {
     return {
         isLoggedIn: state.session.isLoggedIn,
+        messageModalContent: state.messageModal.message,
+        shouldModalContent: state.messageModal.show,
     }
 }
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+
+    }
+}
+
 
 const RedirectHome = class extends Component {
     render() {
@@ -56,6 +67,8 @@ class _App extends Component {
 
     render() {
         let elements;
+        const messageModal = (this.props.shouldModalContent) ? this.props.messageModalContent : null
+
         if (this.props.isLoggedIn) {
             elements = (
                 <div>
@@ -81,6 +94,7 @@ class _App extends Component {
         return (
             <BrowserRouter>
                 <div className="App">
+                    {messageModal}
                     {elements}
                 </div>
             </BrowserRouter>
@@ -88,7 +102,7 @@ class _App extends Component {
 
     }
 }
-const App = connect(mapStateToProps)(_App)
+const App = connect(mapStateToProps, mapDispatchToProps)(_App)
 
 export default App;
 

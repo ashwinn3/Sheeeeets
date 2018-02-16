@@ -56,9 +56,6 @@ const _RegisterModal = class extends Component {
 
     render() {
         const activeClass = (this.props.isActive) ? 'modal is-active' : 'modal';
-        console.log(this.props.registerError);
-        console.log(this.props.registerSuccessful);
-        console.log(this.props.registerError && !this.props.registerSuccessful);
         const errorMessage = (this.props.registerError && !this.props.registerSuccessful) ?
             <div className='has-text-danger is-size-7 has-text-weight-bold'>
                 {this.props.registerError}

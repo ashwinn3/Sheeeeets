@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import ToolbarButton from "../widgets/ToolbarButton.js"
 import { requestLogout } from '../states/actions'
+import {  } from '../states/actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {

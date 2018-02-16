@@ -14,7 +14,23 @@ export const REQUEST_REGISTER =  'SESSION_REQUEST_REGISTER';
 export const RECEIVE_REGISTER =  'SESSION_RECEIVE_REGISTER';
 export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
 
+export const EDIT_MESSAGE_MODAL =  'SHOW_MESSAGE_MODAL';
 
+export function editMessageModal({show, message}) {
+    return {type: EDIT_MESSAGE_MODAL, show, message};
+}
+
+export function showMessageModal(message) {
+    return function (dispatch) {
+        dispatch(editMessageModal({
+            message: message,
+            show: true
+        }));
+        setTimeout(() => dispatch(editMessageModal({
+            show: false,
+        })), 1000);
+    }
+}
 
 
 export function requestLogin(username) {
@@ -52,13 +68,16 @@ export function attemptLogin(username, password) {
                 method: 'GET',
         })
         // !!! Do not use catch !!! Catch would cause error, if error only log it
-            .then((response) => response.json(),
-                (error) => console.log('An error occurred.', error))
-            .then((json) => {
-                const isLoggedIn = (json.response === 'Login Success');
-                const error = (isLoggedIn) ? null : 'Error logging in';
-                return dispatch(receiveLogin(username, isLoggedIn, error));
-            });
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            const isLoggedIn = (json.response === 'Login Success');
+            const error = (isLoggedIn) ? null : 'Error logging in';
+            if (isLoggedIn) {
+                dispatch(showMessageModal('Login'));
+            }
+            return dispatch(receiveLogin(username, isLoggedIn, error));
+        });
     }
 }
 
@@ -122,6 +141,7 @@ export function attemptRegister({username, password, firstName, lastName, email}
             const success = json.response == 'Success: User registered';
             if (success) {
                 dispatch(toggleRegister());
+                dispatch(showMessageModal('Login'));
             }
             const error = (success) ? null : json.response;
             return dispatch(receiveRegister(success, error));
@@ -150,4 +170,14 @@ export function login(id) {
 export function logout(id) {
   return { type: SESSION, id, direction: 'logout' }
 }
+
+
+
+
+
+
+
+
+
+
 
