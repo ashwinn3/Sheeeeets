@@ -83,7 +83,7 @@ class _App extends Component {
             );
         } else {
             elements =
-                <div>
+                <div className="hero is-primary is-fullheight">
                     <Switch>
                         <Route exact path="/login" render={(props) => (
                             <LoginPage {...props}/>)} />
