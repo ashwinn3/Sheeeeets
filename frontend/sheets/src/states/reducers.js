@@ -11,6 +11,7 @@ import {
             REQUEST_REGISTER,
             RECEIVE_REGISTER,
             SUBMIT_REGISTRATION_INFO,
+            EDIT_MESSAGE_MODAL,
                                     } from './actions'
 
 
@@ -104,11 +105,24 @@ function register(state = defaultRegisterState, action) {
     }
 }
 // ==========================================
+const defaultModalState = {
+
+}
+function messageModal(state = defaultModalState, action) {
+    switch (action.type) {
+        case EDIT_MESSAGE_MODAL:
+            return Object.assign({}, state, {message: action.message, show: action.show});
+        default:
+            return state
+    }
+}
+
+// ==========================================
 
 
 
 const todoApp = combineReducers({
-  session, login, register
+  session, login, register, messageModal
 })
 
 export default todoApp
