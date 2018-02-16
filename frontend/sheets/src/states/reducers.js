@@ -7,10 +7,12 @@ import {
             SESSION_LOGOUT,
             LOGIN_SET_USERNAME_PASSWORD,
             _LOGIN_TOGGLE_REGISTER,
+            SUBMIT_LOGIN_INFO,
             REGISTER_SET_VALUES,
             REQUEST_REGISTER,
             RECEIVE_REGISTER,
             SUBMIT_REGISTRATION_INFO,
+            EDIT_MESSAGE_MODAL,
                                     } from './actions'
 
 
@@ -64,6 +66,11 @@ function login(state = defaultLoginState, action) {
             return Object.assign({}, state, {registerIsToggled: !state.registerIsToggled});
         case SESSION_LOGOUT:
             return Object.assign({}, defaultLoginState);
+        case SUBMIT_LOGIN_INFO: {
+            const obj = {};
+            obj[action.key] = action.value;
+            return Object.assign({}, state, obj);
+        }
         default:
             return state
     }
@@ -104,11 +111,24 @@ function register(state = defaultRegisterState, action) {
     }
 }
 // ==========================================
+const defaultModalState = {
+
+}
+function messageModal(state = defaultModalState, action) {
+    switch (action.type) {
+        case EDIT_MESSAGE_MODAL:
+            return Object.assign({}, state, {message: action.message, show: action.show});
+        default:
+            return state
+    }
+}
+
+// ==========================================
 
 
 
 const todoApp = combineReducers({
-  session, login, register
+  session, login, register, messageModal
 })
 
 export default todoApp
