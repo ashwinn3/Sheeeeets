@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import 'bulma/css/bulma.css';
+import { connect } from 'react-redux'
 
 import Toolbar from './components/Toolbar.js';
 import LoginPage from './pages/LoginPage.js';
+import Dashboard from './pages/Dashboard.js';
 import NotFound from './pages/NotFound.js';
-import LoginSwitch from './components/LoginSwitch.js';
-import Something from './components/Something.js';
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isLoggedIn: state.session.isLoggedIn,
+    }
+}
 
 const RedirectHome = class extends Component {
     render() {
         return <Redirect to='/'  />;
     }
 }
-
-const Home = class extends Component {
+const RedirectLogin = class extends Component {
     render() {
-        return <div>You are home</div>
+        return  <Redirect to='/login'/>
     }
 }
 
-class App extends Component {
+class _App extends Component {
     constructor(...args) {
         super(...args);
         this.handelLogin = this.handelLogin.bind(this);
@@ -51,16 +55,14 @@ class App extends Component {
     }
 
     render() {
-        var elements = null;
-        let userInfo = {id   : this.state.id,
-                        name : this.state.name}
-        if (this.state.loggedIn) {
+        let elements;
+        if (this.props.isLoggedIn) {
             elements = (
                 <div>
-                    <Toolbar handleLogout={this.handelLogout} userName={this.state.name} userID={this.state.id}/>
+                    <Toolbar/>
                     <Switch>
                         <Route exact path="/" render={(props) => (
-                            <Home {...props} userInfo={userInfo}/>)} />
+                            <Dashboard/>)} />
                         <Route path="/login" component={RedirectHome}/>
                         <Route path="*" component={NotFound}/>
                     </Switch>
@@ -69,11 +71,10 @@ class App extends Component {
         } else {
             elements =
                 <div>
-                    <Something someProp='a value'/>
                     <Switch>
                         <Route exact path="/login" render={(props) => (
-                            <LoginPage {...props} method={this.handelLogin} />)} />
-                        <Route component={LoginSwitch}/>
+                            <LoginPage {...props}/>)} />
+                        <Route component={RedirectLogin}/>
                     </Switch>;
                 </div>
         }
@@ -87,5 +88,8 @@ class App extends Component {
 
     }
 }
+const App = connect(mapStateToProps)(_App)
 
 export default App;
+
+

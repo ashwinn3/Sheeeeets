@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
 import { withRouter } from 'react-router-dom'
 import ToolbarButton from "../widgets/ToolbarButton.js"
+import { requestLogout } from '../states/actions'
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        currentUser: state.session.username
+    }
+}
 
-const Toolbar = withRouter(class extends Component {
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        logout: () => {
+            dispatch(requestLogout());
+        }
+    }
+}
+
+const _Toolbar = withRouter(class extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
@@ -13,10 +29,10 @@ const Toolbar = withRouter(class extends Component {
 
     render() {
         const paths =  [
-            {path:"/",name:"Home"},
+            {path:"/",name:"Dashboard"},
             {path:"upload",name:"Upload Profile Picture"}
         ];
-        return <div> 
+        return <div>
                 <div className="hero is-primary ">
                     <div className="container">
                         <div className="columns">
@@ -25,7 +41,7 @@ const Toolbar = withRouter(class extends Component {
                             </div>
                             <div className="column">
                                 <div className="subtitle is-pulled-right">
-                                    You are signed in as test_user
+                                    You are signed in as {this.props.currentUser}
                                 </div>
                             </div>
                         </div>
@@ -38,7 +54,7 @@ const Toolbar = withRouter(class extends Component {
                                 return <ToolbarButton key={i} path={path}>{name}</ToolbarButton>
                             })}
                             <div>
-                                <a className="navbar-item is-tab" onClick={this.props.handleLogout}>Logout </a>
+                                <a className="navbar-item is-tab" onClick={this.props.logout}>Logout </a>
                             </div>
                         </ul>
                     </div>
@@ -46,5 +62,6 @@ const Toolbar = withRouter(class extends Component {
             </div>
     }
 });
+const Toolbar = connect(mapStateToProps, mapDispatchToProps)(_Toolbar)
 
-export default Toolbar
+export default Toolbar;

@@ -3,22 +3,25 @@ import React, { Component } from 'react';
 const NameForm = class extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: "",
-            pass: ""
+        this.handleInputChange1 = this.handleInputChange1.bind(this);
+        this.handleInputChange2 = this.handleInputChange2.bind(this);
+        this.state ={
+            field1: null,
+            field2: null
         };
-
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+    handleInputChange1(event) {
         this.setState({
-            [name]: value
-        });
-        this.props.method(name,value)
+            field1: event.target.value
+        })
+        this.props.setMethod(event.target.value, this.state.field2);
+    }
+    handleInputChange2(event) {
+        this.setState({
+            field2: event.target.value
+        })
+        this.props.setMethod(this.state.field1, event.target.value);
     }
 
 
@@ -26,24 +29,22 @@ const NameForm = class extends Component {
         return (
             <form>
                 <div className="field">
-                    <label className="label">Username</label>
+                    <label className="label">{this.props.label1}</label>
                     <div className="control">
                         <input className="input"
                             name="name"
                             type="textbox"
-                            value={this.state.name}
-                            onChange={this.handleInputChange} />
+                            onChange={this.handleInputChange1} />
                     </div>
                 </div>
 
                 <div className="field">
-                    <label className="label">Password</label>
+                    <label className="label">{this.props.label2}</label>
                     <div className="control">
                         <input className="input"
                         name="pass"
                         type="textbox"
-                        value={this.state.pass}
-                        onChange={this.handleInputChange} />
+                        onChange={this.handleInputChange2} />
                     </div>
                 </div>
             </form>

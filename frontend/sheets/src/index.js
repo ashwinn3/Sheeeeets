@@ -10,6 +10,7 @@ import App from './App'
 
 const loggerMiddleware = createLogger({
     collapsed: true,
+    level: 'info',
 });
 
 const store = createStore(
