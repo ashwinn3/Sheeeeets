@@ -3,27 +3,12 @@ import React, { Component } from 'react';
 const NameForm = class extends Component {
     constructor(props) {
         super(props);
-        this.handleInputChange1 = this.handleInputChange1.bind(this);
-        this.handleInputChange2 = this.handleInputChange2.bind(this);
-        this.state ={
-            field1: null,
-            field2: null
-        };
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange1(event) {
-        this.setState({
-            field1: event.target.value
-        })
-        this.props.setMethod(event.target.value, this.state.field2);
+    handleInputChange(event) {
+        this.props.setMethod([event.target.name], event.target.value);
     }
-    handleInputChange2(event) {
-        this.setState({
-            field2: event.target.value
-        })
-        this.props.setMethod(this.state.field1, event.target.value);
-    }
-
 
     render() {
         return (
@@ -32,9 +17,10 @@ const NameForm = class extends Component {
                     <label className="label">{this.props.label1}</label>
                     <div className="control">
                         <input className="input"
-                            name="name"
+                            name="username"
                             type="textbox"
-                            onChange={this.handleInputChange1} />
+                            value={this.props.value1}
+                            onChange={this.handleInputChange} />
                     </div>
                 </div>
 
@@ -42,9 +28,10 @@ const NameForm = class extends Component {
                     <label className="label">{this.props.label2}</label>
                     <div className="control">
                         <input className="input"
-                        name="pass"
-                        type="textbox"
-                        onChange={this.handleInputChange2} />
+                        name="password"
+                        type="password"
+                        value={this.props.value2}
+                        onChange={this.handleInputChange} />
                     </div>
                 </div>
             </form>

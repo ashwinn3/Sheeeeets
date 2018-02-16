@@ -8,6 +8,8 @@ export const SESSION_LOGOUT = 'SESSION_LOGOUT';
 
 export const LOGIN_SET_USERNAME_PASSWORD = 'LOGIN_SET_USERNAME_PASSWORD';
 export const _LOGIN_TOGGLE_REGISTER = '_LOGIN_TOGGLE_REGISTER';
+export const SUBMIT_LOGIN_INFO = 'SUBMIT_LOGIN_INFO';
+
 
 export const REGISTER_SET_VALUES =  'REGISTER_SET_VALUES';
 export const REQUEST_REGISTER =  'SESSION_REQUEST_REGISTER';
@@ -74,7 +76,7 @@ export function attemptLogin(username, password) {
             const isLoggedIn = (json.response === 'Login Success');
             const error = (isLoggedIn) ? null : 'Error logging in';
             if (isLoggedIn) {
-                dispatch(showMessageModal('Login'));
+                dispatch(showMessageModal('Login Successful!'));
             }
             return dispatch(receiveLogin(username, isLoggedIn, error));
         });
@@ -82,9 +84,15 @@ export function attemptLogin(username, password) {
 }
 
 export function requestLogout() {
-  return {
-    type: SESSION_LOGOUT,
-  }
+    return function (dispatch) {
+        dispatch(logout());
+        dispatch(showMessageModal('Logout Successful!'));
+    }
+}
+export function logout() {
+    return {
+        type: SESSION_LOGOUT,
+    }
 }
 
 
@@ -119,8 +127,8 @@ export function attemptRegister({username, password, firstName, lastName, email}
             return dispatch(receiveRegister(success, error));
         }
 
-        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username="
-            + username + "&password=" + password + "&email=" + "something@someone.com", {
+        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username=" +
+            `${username}&password=${password}&email=${email}`, {
                 method: "POST",
                 headers: new Headers({
                     'Content-Type': 'application/json',
@@ -138,10 +146,12 @@ export function attemptRegister({username, password, firstName, lastName, email}
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
         .then((json) => {
-            const success = json.response == 'Success: User registered';
+            const success = json.response === 'Success: User registered';
             if (success) {
                 dispatch(toggleRegister());
-                dispatch(showMessageModal('Login'));
+                dispatch(showMessageModal('Registration Successful!'));
+                dispatch(setUsernamePassword(username, ''));
+                dispatch(setValuesForRegister('', '', '', '', ''));
             }
             const error = (success) ? null : json.response;
             return dispatch(receiveRegister(success, error));
@@ -157,19 +167,17 @@ export function toggleRegister() {
 export function setUsernamePassword(username, password) {
     return { type: LOGIN_SET_USERNAME_PASSWORD, username, password}
 }
+export function submitLoginInfo(key, value) {
+    return {
+        type: SUBMIT_LOGIN_INFO,
+        key,
+        value,
+    }
+}
 export function setValuesForRegister(username, password, firstName, lastName, email) {
     return { type: REGISTER_SET_VALUES, username, password, firstName, lastName, email}
 }
 
-
-
-export function login(id) {
-  return { type: SESSION, id, direction: 'login' }
-}
-
-export function logout(id) {
-  return { type: SESSION, id, direction: 'logout' }
-}
 
 
 

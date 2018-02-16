@@ -7,6 +7,7 @@ import Toolbar from './components/Toolbar.js';
 import LoginPage from './pages/LoginPage.js';
 import Dashboard from './pages/Dashboard.js';
 import NotFound from './pages/NotFound.js';
+import NotificationMessage from './widgets/NotificationMessage.js';
 
 import {  } from './states/actions'
 
@@ -67,7 +68,7 @@ class _App extends Component {
 
     render() {
         let elements;
-        const messageModal = (this.props.shouldModalContent) ? this.props.messageModalContent : null
+        const messageModal = (this.props.shouldModalContent) ? <NotificationMessage message={this.props.messageModalContent}/> : null
 
         if (this.props.isLoggedIn) {
             elements = (
