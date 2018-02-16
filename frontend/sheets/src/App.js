@@ -7,6 +7,7 @@ import Toolbar from './components/Toolbar.js';
 import LoginPage from './pages/LoginPage.js';
 import Dashboard from './pages/Dashboard.js';
 import NotFound from './pages/NotFound.js';
+import AccountManage from './pages/AccountManage.js';
 
 import {  } from './states/actions'
 
@@ -77,6 +78,7 @@ class _App extends Component {
                         <Route exact path="/" render={(props) => (
                             <Dashboard/>)} />
                         <Route path="/login" component={RedirectHome}/>
+                        <Route path="/manage" component={AccountManage}/>
                         <Route path="*" component={NotFound}/>
                     </Switch>
                 </div>

@@ -14,7 +14,12 @@ export const REQUEST_REGISTER =  'SESSION_REQUEST_REGISTER';
 export const RECEIVE_REGISTER =  'SESSION_RECEIVE_REGISTER';
 export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
 
+export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
+export const UPDATE_EMAIL = 'UPDATE_EMAIL';
+
 export const EDIT_MESSAGE_MODAL =  'SHOW_MESSAGE_MODAL';
+
+export const ADD_ACCOUNT_INFO_TO_SESSION = 'ADD_ACCOUNT_INFO_TO_SESSION';
 
 export function editMessageModal({show, message}) {
     return {type: EDIT_MESSAGE_MODAL, show, message};
@@ -75,6 +80,7 @@ export function attemptLogin(username, password) {
             const error = (isLoggedIn) ? null : 'Error logging in';
             if (isLoggedIn) {
                 dispatch(showMessageModal('Login'));
+                dispatch(addAccountInfoToSession({email: "Email", firstName: "First", lastName: "Last", username: "User"}));
             }
             return dispatch(receiveLogin(username, isLoggedIn, error));
         });
@@ -149,6 +155,27 @@ export function attemptRegister({username, password, firstName, lastName, email}
     }
 }
 
+export function addAccountInfoToSession({username, password, firstName, lastName, email}) {
+    return {
+        type: ADD_ACCOUNT_INFO_TO_SESSION,
+        username,
+        password,
+        firstName,
+        lastName,
+        email
+    }
+}
+
+/*export function updatePassword {
+    return function (dispatch) {
+
+    }
+}
+
+export function updateEmail {
+    return function (dispatch) {
+    }
+}*/
 
 
 export function toggleRegister() {

@@ -12,6 +12,7 @@ import {
             RECEIVE_REGISTER,
             SUBMIT_REGISTRATION_INFO,
             EDIT_MESSAGE_MODAL,
+            ADD_ACCOUNT_INFO_TO_SESSION,
                                     } from './actions'
 
 
@@ -45,6 +46,13 @@ function session(state = defaultSessionState, action) {
             });
         case SESSION_LOGOUT:
             return Object.assign({}, defaultSessionState);
+        case ADD_ACCOUNT_INFO_TO_SESSION:
+            return Object.assign({}, state, {
+                username: action.username,
+                firstName: action.firstName,
+                lastName: action.lastName,
+                email: action.email
+            });
     default:
       return state
   }
