@@ -129,7 +129,7 @@ const _RegisterModal = class extends Component {
                 </section>
 
                 <footer className='modal-card-foot'>
-                    <button onClick={this.submitUser} className='button is-success'>Register</button>
+                    <button onClick={this.submitUser} className='button is-primary'>Register</button>
                     <button onClick={this.props.toggleRegister} className='button'>Cancel</button>
                     {errorMessage}
                 </footer>
