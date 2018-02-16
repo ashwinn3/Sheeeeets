@@ -35,7 +35,8 @@ const _LoginPage = class extends Component {
     }
 
 	render() {
-	    return <div className="section">
+	    return <div className="section hero">
+	    			<div className="container title is-1"> Sheets</div>
 	    			<button onClick={this.gogo}>Click me</button>
 	    			<div className="container">
 	    				<LoginControl method={this.props.method}/>
