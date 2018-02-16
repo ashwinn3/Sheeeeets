@@ -34,7 +34,8 @@ const _LoginPage = class extends Component {
     	)
 	};
 	render() {
-	    return <div className="section">
+	    return <div className="section hero">
+	    			<div className="container title is-1"> Sheets</div>
 	    			<div className="container">
 	    				<LoginControl method={this.props.method} toggleRegister={this.toggleModal}/>
 	    			</div>

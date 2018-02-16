@@ -54,12 +54,12 @@ const _LoginControl = class extends Component {
                 <h1 className='title'>Please sign in.</h1>
                 <NameForm setMethod={this.props.setUsernamePassword} label1='Username' label2='Password'/>
                 <br/>
-                <div className='field is-grouped'>
+                <div className='field is-grouped is-grouped-centered'>
                     <p className='control'>
-                        <button onClick={this.handleLoginClick} className='button is-success'>Login</button>
+                        <button onClick={this.handleLoginClick} className='button is-primary is-inverted'>Login</button>
                     </p>
                     <p className='control'>
-                        <button onClick={this.handleToggleRegister} className='button is-link'>Register</button>
+                        <button onClick={this.handleToggleRegister} className='button is-primary is-inverted'>Register</button>
                     </p>
                 </div>
                 {failedText}
