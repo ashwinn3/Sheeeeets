@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import NameForm from '../widgets/NameForm.js';
-import { toggleRegister, attemptLogin, setUsernamePassword } from '../states/actions'
+import { toggleRegister, attemptLogin, submitLoginInfo } from '../states/actions'
 
-const hash = require('js-hash-code');
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -22,8 +21,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         toggleRegister: (val) => {
             dispatch(toggleRegister(val));
         },
-        setUsernamePassword: (username, password)  => {
-            dispatch(setUsernamePassword(username, password));
+        submitLoginInfo: (key, value) => {
+            dispatch(submitLoginInfo(key, value));
         }
     }
 }
@@ -52,7 +51,8 @@ const _LoginControl = class extends Component {
         return (
             <div>
                 <h1 className='title'>Please sign in.</h1>
-                <NameForm setMethod={this.props.setUsernamePassword} label1='Username' label2='Password'/>
+                <NameForm setMethod={this.props.submitLoginInfo} label1='Username' label2='Password'
+                    value1={this.props.username} value2={this.props.password}/>
                 <br/>
                 <div className='field is-grouped is-grouped-centered'>
                     <p className='control'>
