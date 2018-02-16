@@ -1,9 +1,6 @@
 package hello;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,13 +16,14 @@ public class SheetController {
 
 
     /*
+     * TYPE: POST
      * add new sheet. For now this only takes in username and sheet name and fills in
      * data column with empty string
      * ex: http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/addSheet?username=<user>&name=<name>
      * TODO: in sprint 3 update this to take in json data and store
      *
      */
-    @RequestMapping("/addSheet")
+    @RequestMapping(value = "/addSheet", method = RequestMethod.POST)
     public Response addSheet(@RequestParam(value="username", defaultValue="na") String username,
                           @RequestParam(value="name", defaultValue="na") String name) {
         Connection con = DBConnect.requestConnection();
@@ -41,6 +39,7 @@ public class SheetController {
     }
 
     /*
+     * TYPE: GET
      * returns json with list identified by "names": ...
      * ex: http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getSheets?username=<user>
      * returns:
