@@ -1,0 +1,6 @@
+*.com
+*.exe
+*.class
+.idea
+.mvn
+*/.DS_Store

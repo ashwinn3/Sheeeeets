@@ -1,0 +1,10 @@
+session
+    isFetching
+    isLoggedIn
+    username
+    timeLoggedIn
+    error
+login
+    username
+    password
+    registerIsToggled
