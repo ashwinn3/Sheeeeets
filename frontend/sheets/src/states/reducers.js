@@ -14,6 +14,16 @@ import {
             SUBMIT_REGISTRATION_INFO,
             EDIT_MESSAGE_MODAL,
             ADD_ACCOUNT_INFO_TO_SESSION,
+            PASSWORD_SET_VALUES,
+            UPDATE_PASSWORD,
+            RECEIVE_PASSWORD,
+            SUBMIT_PASSWORD,
+            _ACCOUNT_TOGGLE_PASSWORD,
+            EMAIL_SET_VALUES,
+            UPDATE_EMAIL,
+            RECEIVE_EMAIL,
+            SUBMIT_EMAIL,
+            _ACCOUNT_TOGGLE_EMAIL,
                                     } from './actions'
 
 
@@ -84,7 +94,82 @@ function login(state = defaultLoginState, action) {
     }
 }
 // ==========================================
+const defaultAccountState = {
+    emailIsToggled: false,
+    passwordIsToggled: false,
+    username: null,
+    password: null,
+    email: null
+}
 
+function account(state = defaultAccountState, action) {
+    switch (action.type) {
+        case _ACCOUNT_TOGGLE_EMAIL:
+            return Object.assign({}, state, {emailIsToggled: !state.emailIsToggled});
+        case _ACCOUNT_TOGGLE_PASSWORD:
+            return Object.assign({}, state, {passwordIsToggled: !state.passwordIsToggled});
+        case SESSION_LOGOUT:
+            return Object.assign({}, defaultLoginState);
+        default:
+            return state
+    }
+}
+
+const defaultPasswordState = {
+    isUpdatePassword: false,
+    wasSuccessful: true,
+    error: null,
+    username: null,
+    password: '',
+}
+
+function password(state = defaultPasswordState, action) {
+    switch (action.type) {
+        case UPDATE_PASSWORD:
+            return Object.assign({}, state, {isUpdatePassword: true});
+        case SUBMIT_PASSWORD:
+            const obj = {};
+            obj[action.key] = action.value;
+            return Object.assign({}, state, obj);
+        case RECEIVE_PASSWORD:
+            return Object.assign({}, state, {isUpdatePassword: false, wasSuccessful: action.wasSuccessful,
+                error: action.error});
+        case PASSWORD_SET_VALUES:
+            return Object.assign({}, state, {username: action.username, password: action.password});
+        case SESSION_LOGOUT:
+            return Object.assign({}, defaultRegisterState);
+        default:
+            return state
+    }
+}
+
+const defaultEmailState = {
+    isUpdateEmail: false,
+    wasSuccessful: true,
+    error: null,
+    username: null,
+    email: '',
+}
+
+function email(state = defaultEmailState, action) {
+    switch (action.type) {
+        case UPDATE_EMAIL:
+            return Object.assign({}, state, {isUpdateEmail: true});
+        case SUBMIT_EMAIL:
+            const obj = {};
+            obj[action.key] = action.value;
+            return Object.assign({}, state, obj);
+        case RECEIVE_EMAIL:
+            return Object.assign({}, state, {isUpdateEmail: false, wasSuccessful: action.wasSuccessful,
+                error: action.error});
+        case EMAIL_SET_VALUES:
+            return Object.assign({}, state, {username: action.username, email: action.email});
+        case SESSION_LOGOUT:
+            return Object.assign({}, defaultRegisterState);
+        default:
+            return state
+    }
+}
 
 // ==========================================
 const defaultRegisterState = {

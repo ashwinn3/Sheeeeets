@@ -1,50 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {  } from '../states/actions'
+import AccountControl from '../components/AccountControl.js'
+import PasswordModal from '../components/PasswordModal.js'
+import EmailModal from '../components/EmailModal.js'
 
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        firstName: state.session.firstName,
-        lastName: state.session.lastName,
-        email: state.session.email,
-        username: state.session.username,
+    	emailIsToggled: state.account.emailIsToggled,
+    	passwordIsToggled: state.account.passwordIsToggled,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-    }
+	return {
+	}
 }
 
 const _AccountManage = class extends Component {
 
 
-    constructor(...args) {
-        super(...args);
+	constructor(...args) {
+	    super(...args);
+	    this.state = {
+	        modalIsActive: false
+	    };
+
+	}
+	gogo() {
+        this.props.showMessageModal('Login successful');
     }
 
-    render() {
-        return <div className="section">
-                    <div>
-                        <h1>Name: {this.props.firstName} {this.props.lastName}</h1>
-                    </div>
-                    <div>
-                        <h1>Username: {this.props.username}</h1>
-                    </div>
-                    <div>
-                        <h1>Email: {this.props.email}
-                            <form action="/changeEmail">
-                                <button type="submit">Change Email</button>
-                            </form>
-                        </h1>
-                    </div>
-                    <div>
-                        <form action="/changePassword">
-                            <button type="submit">Change Password</button>
-                        </form>
-                    </div>
-                </div>;
+	render() {
+	    return <div className="section hero">
+	    			<div className="container title is-1"> Sheets</div>
+	    			<div className="container">
+	    				<AccountControl method={this.props.method}/>
+	    			</div>
+	    			<PasswordModal isActive={this.props.passwordIsToggled}/>
+	    			<EmailModal isActive={this.props.emailIsToggled}/>
+	    		</div>;
     }
 
 }
