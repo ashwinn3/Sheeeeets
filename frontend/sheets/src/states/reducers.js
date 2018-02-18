@@ -99,7 +99,9 @@ const defaultAccountState = {
     passwordIsToggled: false,
     username: null,
     password: null,
-    email: null
+    email: null,
+    firstName: null,
+    lastName: null
 }
 
 function account(state = defaultAccountState, action) {
@@ -221,7 +223,7 @@ function messageModal(state = defaultModalState, action) {
 
 
 const todoApp = combineReducers({
-  session, login, register, messageModal
+  session, login, register, messageModal, account, email, password
 })
 
 export default todoApp

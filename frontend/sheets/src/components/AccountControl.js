@@ -6,61 +6,72 @@ import { toggleEmail, togglePassword, attemptEmail, attemptPassword, submitEmail
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        string: state.session.id,
         accountError: state.account.error,
         username: state.account.username,
         password: state.account.password,
-        email: state.account.email
+        email: state.account.email,
+        firstName: state.account.firstName,
+        lastName: state.account.lastName
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        attemptLogin: (username, password) => {
-            dispatch(attemptLogin(username, password));
+        attemptPassword: (username, password) => {
+            dispatch(attemptPassword(username, password));
         },
-        toggleRegister: (val) => {
-            dispatch(toggleRegister(val));
+        attemptEmail: (username, email) => {
+            dispatch(attemptEmail(username, email));
         },
-        submitLoginInfo: (key, value) => {
-            dispatch(submitLoginInfo(key, value));
+        togglePassword: (val) => {
+            dispatch(togglePassword(val));
+        },
+        toggleEmail: (val) => {
+            dispatch(toggleEmail(val));
+        },
+        submitPassword: (key, value) => {
+            dispatch(submitPassword(key, value));
+        },
+        submitEmail: (key, value) => {
+            dispatch(submitEmail(key, value));
         }
     }
 }
 
-const _LoginControl = class extends Component {
+const _AccountControl = class extends Component {
     constructor(props) {
         super(props);
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleToggleRegister = this.handleToggleRegister.bind(this);
+        this.handleTogglePassword = this.handleTogglePassword.bind(this);
+        this.handleToggleEmail = this.handleToggleEmail(this);
     }
 
-    handleLoginClick(event) {
-        this.props.attemptLogin(this.props.username, this.props.password);
+    handleTogglePassword(event) {
+        this.props.togglePassword();
     }
 
-    handleToggleRegister(event) {
-        this.props.toggleRegister();
+    handleToggleEmail(event) {
+        this.props.toggleEmail();
     }
 
     render() {
-        const failedText = (this.props.loginError) ?
+        const failedText = (this.props.accountError) ?
             <div className='has-text-danger is-size-4 has-text-weight-bold'>
-                {this.props.loginError}
+                {this.props.accountError}
             </div>
             : null;
         return (
             <div>
-                <h1 className='title'>Please sign in.</h1>
-                <NameForm setMethod={this.props.submitLoginInfo} label1='Username' label2='Password'
-                    value1={this.props.username} value2={this.props.password}/>
+                <h1>Name: {this.props.firstName} {this.props.lastName}</h1>
                 <br/>
+                <h1>Username: {this.props.username}</h1>
+                <br/>
+                <h1>Email: {this.props.email}</h1>
                 <div className='field is-grouped is-grouped-centered'>
                     <p className='control'>
-                        <button onClick={this.handleLoginClick} className='button is-primary is-inverted'>Login</button>
+                        <button onClick={this.handleToggleEmail} className='button is-primary is-inverted'>Change Email</button>
                     </p>
                     <p className='control'>
-                        <button onClick={this.handleToggleRegister} className='button is-primary is-inverted'>Register</button>
+                        <button onClick={this.handleTogglePassword} className='button is-primary is-inverted'>Change Password</button>
                     </p>
                 </div>
                 {failedText}
@@ -69,7 +80,7 @@ const _LoginControl = class extends Component {
     }
 }
 
-const LoginControl = connect(mapStateToProps, mapDispatchToProps)(_LoginControl)
+const AccountControl = connect(mapStateToProps, mapDispatchToProps)(_AccountControl)
 
 
-export default LoginControl;
+export default AccountControl;

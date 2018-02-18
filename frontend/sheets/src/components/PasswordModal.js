@@ -5,7 +5,7 @@ import { togglePassword, attemptPassword, submitPassword } from '../states/actio
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        PasswordIsToggled: state.login.registerIsToggled,
+        passwordIsToggled: state.account.passwordIsToggled,
         passwordError: state.password.error,
         passwordSuccessful: state.password.wasSuccessful,
         username: state.password.username,

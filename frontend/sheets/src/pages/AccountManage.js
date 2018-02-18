@@ -27,13 +27,10 @@ const _AccountManage = class extends Component {
 	    };
 
 	}
-	gogo() {
-        this.props.showMessageModal('Login successful');
-    }
 
 	render() {
 	    return <div className="section hero">
-	    			<div className="container title is-1"> Sheets</div>
+	    			<div className="container title is-1"> Account Info</div>
 	    			<div className="container">
 	    				<AccountControl method={this.props.method}/>
 	    			</div>
