@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import NameForm from '../widgets/NameForm.js';
 import { toggleRegister, attemptLogin, submitLoginInfo } from '../states/actions'
 
 
@@ -32,6 +31,7 @@ const _LoginControl = class extends Component {
         super(props);
         this.handleLoginClick = this.handleLoginClick.bind(this);
         this.handleToggleRegister = this.handleToggleRegister.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleLoginClick(event) {
@@ -40,6 +40,10 @@ const _LoginControl = class extends Component {
 
     handleToggleRegister(event) {
         this.props.toggleRegister();
+    }
+
+    handleInputChange(event) {
+        this.props.submitLoginInfo([event.target.name], event.target.value);
     }
 
     render() {
@@ -51,8 +55,29 @@ const _LoginControl = class extends Component {
         return (
             <div>
                 <h1 className='title'>Please sign in.</h1>
-                <NameForm setMethod={this.props.submitLoginInfo} label1='Username' label2='Password'
-                    value1={this.props.username} value2={this.props.password}/>
+                <form>
+                    <div className="field">
+                        <label className="label">Username</label>
+                        <div className="control">
+                            <input className="input"
+                                name="username"
+                                type="textbox"
+                                value={this.props.user}
+                                onChange={this.handleInputChange} />
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <label className="label">Password</label>
+                        <div className="control">
+                            <input className="input"
+                                name="password"
+                                type="password"
+                                value={this.props.password}
+                                onChange={this.handleInputChange} />
+                        </div>
+                    </div>
+                </form>
                 <br/>
                 <div className='field is-grouped is-grouped-centered'>
                     <p className='control'>
