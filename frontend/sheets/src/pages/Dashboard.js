@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import NewSheetInput from '../components/NewSheetInput'
+import SheetList from '../components/SheetList'
 import {  } from '../states/actions'
 
 
@@ -24,6 +26,8 @@ const _Dashboard = class extends Component {
     render() {
         return <div className="section">
                     <h1>Dashboard goes here</h1>
+                    <NewSheetInput/>
+                    <SheetList/>
                 </div>;
     }
 

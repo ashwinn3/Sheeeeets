@@ -18,6 +18,75 @@ export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
 
 export const EDIT_MESSAGE_MODAL =  'SHOW_MESSAGE_MODAL';
 
+
+
+/////////// CREATING NEW SHEETS ////////////////////
+export const SUBMIT_CREATE_NEW_SHEET = 'SUBMIT_CREATE_NEW_SHEET';
+export const RECEIVE_CREATE_NEW_SHEET = 'RECEIVE_CREATE_NEW_SHEET';
+export const CHANGE_NAME_NEW_SHEET = 'CHANGE_NAME_NEW_SHEET';
+
+function submitCreateNewSheet(name) {
+    return {type: SUBMIT_CREATE_NEW_SHEET, name};
+}
+function receiveCreateNewSheet(name, error) {
+    return {type: RECEIVE_CREATE_NEW_SHEET, name, error};
+}
+export function changeNewSheetName(name) {
+    return {type: CHANGE_NAME_NEW_SHEET, name};
+}
+export function createNewSheet(name, username) {
+    return function (dispatch) {
+        dispatch(submitCreateNewSheet(username));
+        console.log(username);
+        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/addSheet?username='
+            + username + '&name=' + name, {
+                mode: 'cors',
+                method: 'POST',
+        })
+        // !!! Do not use catch !!! Catch would cause error, if error only log it
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            console.log(json);
+            dispatch(getSheets(username));
+            return dispatch(receiveCreateNewSheet(name));
+        });
+    }
+}
+///////////////////////////////////////////////////
+
+/////////////// HANDLEING SHEETS //////////////////
+export const SUBMIT_GET_SHEETS = 'SUBMIT_GET_SHEETS';
+export const RECEIVE_GET_SHEETS = 'RECEIVE_GET_SHEETS';
+export const CHANGE_NAME_SHEET = 'CHANGE_NAME_SHEET';
+function submitGetSheets() {
+    return {type: SUBMIT_GET_SHEETS};
+}
+function receiveGetSheets() {
+    return {type: RECEIVE_GET_SHEETS};
+}
+export function changeSheetName(sheetID) {
+    return {type: CHANGE_NAME_NEW_SHEET};
+}
+export function getSheets(username) {
+    return function (dispatch) {
+        dispatch(submitGetSheets());
+        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getSheets?username=<user>'
+                + username, {
+                mode: 'cors',
+                method: 'GET',
+        })
+        // !!! Do not use catch !!! Catch would cause error, if error only log it
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            console.log(json);
+            return dispatch(receiveGetSheets(json));
+        });
+    }
+}
+
+
 export function editMessageModal({show, message}) {
     return {type: EDIT_MESSAGE_MODAL, show, message};
 }
@@ -126,7 +195,6 @@ export function attemptRegister({username, password, firstName, lastName, email}
             console.log('not long enough')
             return dispatch(receiveRegister(success, error));
         }
-
         return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username=" +
             `${username}&password=${password}&email=${email}`, {
                 method: "POST",
