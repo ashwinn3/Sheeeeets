@@ -17,7 +17,9 @@ export const RECEIVE_REGISTER =  'SESSION_RECEIVE_REGISTER';
 export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
 
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
+export const RECEIVE_PASSWORD = 'RECEIVE_PASSWORD';
 export const UPDATE_EMAIL = 'UPDATE_EMAIL';
+export const RECEIVE_EMAIL = 'RECEIVE_EMAIL';
 
 export const EDIT_MESSAGE_MODAL =  'SHOW_MESSAGE_MODAL';
 
@@ -41,20 +43,20 @@ export function showMessageModal(message) {
 
 
 export function requestLogin(username) {
-  return {
-    type: SESSION_REQUEST_LOGIN,
-    username
-  }
+    return {
+        type: SESSION_REQUEST_LOGIN,
+        username
+    }
 }
 
 export function receiveLogin(username, isLoggedIn, error) {
-  return {
-    type: SESSION_RECEIVE_LOGIN,
-    username,
-    isLoggedIn,
-    timeLoggedIn: Date.now(),
-    error
-  }
+    return {
+        type: SESSION_RECEIVE_LOGIN,
+        username,
+        isLoggedIn,
+        timeLoggedIn: Date.now(),
+        error
+    }
 }
 export function attemptLogin(username, password) {
 
@@ -104,23 +106,51 @@ export function logout() {
 
 
 export function requestRegister() {
-  return {
-    type: REQUEST_REGISTER,
-  }
+    return {
+        type: REQUEST_REGISTER,
+    }
 }
 export function receiveRegister(success, error) {
-  return {
-    type: RECEIVE_REGISTER,
-    wasSuccessful: success,
-    error,
-  }
+    return {
+        type: RECEIVE_REGISTER,
+        wasSuccessful: success,
+        error,
+    }
 }
 export function submitRegistrationInfo(key, value) {
-  return {
-    type: SUBMIT_REGISTRATION_INFO,
-    key,
-    value,
-  }
+    return {
+        type: SUBMIT_REGISTRATION_INFO,
+        key,
+        value,
+    }
+}
+
+export function attemptEmailUpdate() {
+    return {
+        type: UPDATE_EMAIL
+    }
+}
+
+export function receiveEmail(success, error) {
+    return {
+        type: RECEIVE_EMAIL,
+        wasSuccessful: success,
+        error,
+    }
+}
+
+export function attemptPassUpdate() {
+    return {
+        type: UPDATE_PASSWORD
+    }
+}
+
+export function receivePass(success, error) {
+    return {
+        type: RECEIVE_PASSWORD,
+        wasSuccessful: success,
+        error,
+    }
 }
 
 export function attemptRegister({username, password, firstName, lastName, email}) {
@@ -134,20 +164,20 @@ export function attemptRegister({username, password, firstName, lastName, email}
         }
 
         return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username=" +
-            `${username}&password=${password}&email=${email}`, {
-                method: "POST",
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:8080',
-                }),
-                body: JSON.stringify({
-                    name : username,
-                    pass : password,
-                    first : firstName,
-                    last : lastName,
-                    email : email
-                }),
+            `${username}&password=${password}&email=${email}&firstName=${firstName}&lastName=${lastName}`, {
+            method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+            }),
+            body: JSON.stringify({
+                name : username,
+                pass : password,
+                first : firstName,
+                last : lastName,
+                email : email
+            }),
         })
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
@@ -176,16 +206,73 @@ export function addAccountInfoToSession({username, password, firstName, lastName
     }
 }
 
-/*export function updatePassword {
+export function updatePassword({username, password}) {
     return function (dispatch) {
-
+        if(password.length < 1) {
+            const success = false;
+            const error = 'Please finish filling in the form'
+            console.log('not long enough')
+            return dispatch(receivePass(success, error));
+        }
+        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=" +
+            `${username}&newPassword=${password}`, {
+            method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+            }),
+            body: JSON.stringify({
+                name: username,
+                pass: password
+            }),
+        })
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            const success = json.response === 'Success: Password Updated';
+            if (success) {
+                dispatch(showMessageModal('Password Update Successful!'));
+            }
+            const error = (success) ? null : json.response;
+            return dispatch(receivePass(success, error));
+        });
     }
 }
 
-export function updateEmail {
+export function updateEmail({username, email}) {
     return function (dispatch) {
+        if(email.length < 1) {
+            const success = false;
+            const error = 'Please finish filling in the form'
+            console.log('not long enough')
+            return dispatch(receiveEmail(success, error));
+        }
+        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=" +
+            `${username}&newEmail=${email}`, {
+            method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+            }),
+            body: JSON.stringify({
+                name: username,
+                email: email
+            }),
+        })
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            const success = json.response === 'Success: Email changed';
+            if (success) {
+                dispatch(showMessageModal('Email Update Successful!'));
+            }
+            const error = (success) ? null : json.response;
+            return dispatch(receiveEmail(success, error));
+        });
     }
-}*/
+}
 
 
 export function toggleRegister() {

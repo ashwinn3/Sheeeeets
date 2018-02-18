@@ -7,6 +7,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         firstName: state.session.firstName,
         lastName: state.session.lastName,
+        email: state.session.email,
+        username: state.session.username,
     }
 }
 
@@ -24,7 +26,24 @@ const _AccountManage = class extends Component {
 
     render() {
         return <div className="section">
-                    <h1>Name: {this.props.firstName} {this.props.lastName}</h1>
+                    <div>
+                        <h1>Name: {this.props.firstName} {this.props.lastName}</h1>
+                    </div>
+                    <div>
+                        <h1>Username: {this.props.username}</h1>
+                    </div>
+                    <div>
+                        <h1>Email: {this.props.email}
+                            <form action="/changeEmail">
+                                <button type="submit">Change Email</button>
+                            </form>
+                        </h1>
+                    </div>
+                    <div>
+                        <form action="/changePassword">
+                            <button type="submit">Change Password</button>
+                        </form>
+                    </div>
                 </div>;
     }
 
