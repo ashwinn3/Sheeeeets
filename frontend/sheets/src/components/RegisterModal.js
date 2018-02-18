@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-const hash = require('js-hash-code');
 
 const _RegisterModal = class extends Component {
     constructor(...args) {
@@ -79,6 +78,7 @@ const _RegisterModal = class extends Component {
                                     <input className='input'
                                         name='firstName'
                                         type='textbox'
+                                        value={this.props.firstName}
                                         onChange={this.handleInputChange} />
                                 </div>
                             </div>
@@ -89,6 +89,7 @@ const _RegisterModal = class extends Component {
                                     <input className='input'
                                         name='lastName'
                                         type='textbox'
+                                        value={this.props.lastName}
                                         onChange={this.handleInputChange} />
                                 </div>
                             </div>
@@ -99,6 +100,7 @@ const _RegisterModal = class extends Component {
                                 <input className='input'
                                     name='email'
                                     type='textbox'
+                                    value={this.props.email}
                                     onChange={this.handleInputChange} />
                             </div>
                         </div>
@@ -109,6 +111,7 @@ const _RegisterModal = class extends Component {
                                 <input className='input'
                                     name='username'
                                     type='textbox'
+                                    value={this.props.username}
                                     onChange={this.handleInputChange} />
                             </div>
                         </div>
@@ -118,7 +121,8 @@ const _RegisterModal = class extends Component {
                             <div className='control'>
                                 <input className='input'
                                     name='password'
-                                    type='textbox'
+                                    type='password'
+                                    value={this.props.password}
                                     onChange={this.handleInputChange} />
                             </div>
                         </div>
@@ -126,7 +130,7 @@ const _RegisterModal = class extends Component {
                 </section>
 
                 <footer className='modal-card-foot'>
-                    <button onClick={this.submitUser} className='button is-success'>Register</button>
+                    <button onClick={this.submitUser} className='button is-primary'>Register</button>
                     <button onClick={this.props.toggleRegister} className='button'>Cancel</button>
                     {errorMessage}
                 </footer>

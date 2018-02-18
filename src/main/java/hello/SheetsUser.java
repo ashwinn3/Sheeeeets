@@ -6,10 +6,15 @@ package hello;
 public class SheetsUser {
     public String username;
     public String email;
+    public String firstName;
+    public String lastName;
 
-    public SheetsUser(String username, String email) {
+
+    public SheetsUser(String username, String email, String firstName, String lastName) {
         this.username = username;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -19,4 +24,14 @@ public class SheetsUser {
     public String getEmail() {
         return email;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+
 }

@@ -17,7 +17,7 @@ public class LoginController {
 
 
     /*
-     * When passing in a password to this login request, use hashcode of password String for security
+     * url: http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/login?username=<username>&password=<password>
      */
     @RequestMapping("/login")
     public Response login(@RequestParam(value="username", defaultValue="na") String username,

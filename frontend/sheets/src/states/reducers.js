@@ -7,6 +7,7 @@ import {
             SESSION_LOGOUT,
             LOGIN_SET_USERNAME_PASSWORD,
             _LOGIN_TOGGLE_REGISTER,
+            SUBMIT_LOGIN_INFO,
             REGISTER_SET_VALUES,
             REQUEST_REGISTER,
             RECEIVE_REGISTER,
@@ -73,6 +74,11 @@ function login(state = defaultLoginState, action) {
             return Object.assign({}, state, {registerIsToggled: !state.registerIsToggled});
         case SESSION_LOGOUT:
             return Object.assign({}, defaultLoginState);
+        case SUBMIT_LOGIN_INFO: {
+            const obj = {};
+            obj[action.key] = action.value;
+            return Object.assign({}, state, obj);
+        }
         default:
             return state
     }

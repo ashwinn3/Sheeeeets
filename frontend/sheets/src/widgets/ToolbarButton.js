@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import {  } from '../states/actions'
 
 const ToolbarButton = withRouter(class extends Component {

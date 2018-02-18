@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import LoginControl from '../components/LoginControl.js'
 import RegisterModal from '../components/RegisterModal.js'
-import { showMessageModal } from '../states/actions'
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -13,9 +12,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		showMessageModal: (message) => {
-			dispatch(showMessageModal(message));
-		}
 	}
 }
 
@@ -27,7 +23,6 @@ const _LoginPage = class extends Component {
 	    this.state = {
 	        modalIsActive: false
 	    };
-	    this.gogo = this.gogo.bind(this);
 
 	}
 	gogo() {
@@ -35,8 +30,8 @@ const _LoginPage = class extends Component {
     }
 
 	render() {
-	    return <div className="section">
-	    			<button onClick={this.gogo}>Click me</button>
+	    return <div className="section hero">
+	    			<div className="container title is-1"> Sheets</div>
 	    			<div className="container">
 	    				<LoginControl method={this.props.method}/>
 	    			</div>

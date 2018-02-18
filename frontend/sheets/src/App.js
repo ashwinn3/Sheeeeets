@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage.js';
 import Dashboard from './pages/Dashboard.js';
 import NotFound from './pages/NotFound.js';
 import AccountManage from './pages/AccountManage.js';
+import NotificationMessage from './widgets/NotificationMessage.js';
 
 import {  } from './states/actions'
 
@@ -68,7 +69,7 @@ class _App extends Component {
 
     render() {
         let elements;
-        const messageModal = (this.props.shouldModalContent) ? this.props.messageModalContent : null
+        const messageModal = (this.props.shouldModalContent) ? <NotificationMessage message={this.props.messageModalContent}/> : null
 
         if (this.props.isLoggedIn) {
             elements = (
@@ -85,7 +86,7 @@ class _App extends Component {
             );
         } else {
             elements =
-                <div>
+                <div className="hero is-primary is-fullheight">
                     <Switch>
                         <Route exact path="/login" render={(props) => (
                             <LoginPage {...props}/>)} />
