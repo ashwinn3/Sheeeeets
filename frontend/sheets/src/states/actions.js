@@ -35,9 +35,9 @@ export function changeNewSheetName(name) {
     return {type: CHANGE_NAME_NEW_SHEET, name};
 }
 export function createNewSheet(name, username) {
+    console.log(username)
     return function (dispatch) {
         dispatch(submitCreateNewSheet(username));
-        console.log(username);
         return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/addSheet?username='
             + username + '&name=' + name, {
                 mode: 'cors',
@@ -62,8 +62,8 @@ export const CHANGE_NAME_SHEET = 'CHANGE_NAME_SHEET';
 function submitGetSheets() {
     return {type: SUBMIT_GET_SHEETS};
 }
-function receiveGetSheets() {
-    return {type: RECEIVE_GET_SHEETS};
+function receiveGetSheets(sheets) {
+    return {type: RECEIVE_GET_SHEETS, sheets};
 }
 export function changeSheetName(sheetID) {
     return {type: CHANGE_NAME_NEW_SHEET};
@@ -71,7 +71,7 @@ export function changeSheetName(sheetID) {
 export function getSheets(username) {
     return function (dispatch) {
         dispatch(submitGetSheets());
-        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getSheets?username=<user>'
+        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getSheets?username='
                 + username, {
                 mode: 'cors',
                 method: 'GET',
@@ -81,7 +81,7 @@ export function getSheets(username) {
             (error) => console.log('An error occurred.', error))
         .then((json) => {
             console.log(json);
-            return dispatch(receiveGetSheets(json));
+            return dispatch(receiveGetSheets(json.names));
         });
     }
 }

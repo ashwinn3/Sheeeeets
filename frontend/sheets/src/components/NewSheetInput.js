@@ -6,14 +6,15 @@ import { createNewSheet, changeNewSheetName} from '../states/actions'
 const mapStateToProps = (state, ownProps) => {
     return {
         username: state.session.username,
-        creationError: state.newSheet.error
+        creationError: state.newSheet.error,
+        sheetName: state.newSheet.sheetName,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        createNewSheet: (name) => {
-            dispatch(createNewSheet(name));
+        createNewSheet: (name, username) => {
+            dispatch(createNewSheet(name, username));
         },
         changeNewSheetName: (name) => {
             dispatch(changeNewSheetName(name));

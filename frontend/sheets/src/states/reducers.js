@@ -16,6 +16,7 @@ import {
             SUBMIT_CREATE_NEW_SHEET,
             RECEIVE_CREATE_NEW_SHEET,
             CHANGE_NAME_NEW_SHEET,
+            RECEIVE_GET_SHEETS,
                                     } from './actions'
 
 
@@ -149,6 +150,8 @@ const defaultSheetState = {
 }
 function sheets(state = defaultSheetState, action) {
     switch (action.type) {
+        case RECEIVE_GET_SHEETS:
+            return Object.assign({}, state, {sheets: action.sheets});
         default:
             return state
     }
