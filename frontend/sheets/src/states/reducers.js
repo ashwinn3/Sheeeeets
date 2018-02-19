@@ -25,6 +25,10 @@ import {
             SUBMIT_EMAIL,
             _ACCOUNT_TOGGLE_EMAIL,
             ADD_ACCOUNT_INFO_TO_ACCOUNT,
+            SUBMIT_CREATE_NEW_SHEET,
+            RECEIVE_CREATE_NEW_SHEET,
+            CHANGE_NAME_NEW_SHEET,
+            RECEIVE_GET_SHEETS,
                                     } from './actions'
 
 
@@ -74,7 +78,9 @@ function session(state = defaultSessionState, action) {
 
 // ==========================================
 const defaultLoginState = {
-    registerIsToggled: false
+    registerIsToggled: false,
+    username: '',
+    password: ''
 }
 
 function login(state = defaultLoginState, action) {
@@ -225,13 +231,42 @@ function messageModal(state = defaultModalState, action) {
             return state
     }
 }
-
 // ==========================================
+const defaultNewSheetState = {
+    name: '',
+}
+function newSheet(state = defaultNewSheetState, action) {
+    switch (action.type) {
+        case SUBMIT_CREATE_NEW_SHEET:
+            return Object.assign({}, state, {isFetching: true});
+        case RECEIVE_CREATE_NEW_SHEET:
+            return Object.assign({}, state, {isFetching: false, error: action.error});
+        case CHANGE_NAME_NEW_SHEET:
+            return Object.assign({}, state, {name: action.name});
+        default:
+            return state
+    }
+}
+// ====================================
+const defaultSheetState = {
+    sheets: []
+}
+function sheets(state = defaultSheetState, action) {
+    switch (action.type) {
+        case RECEIVE_GET_SHEETS:
+            return Object.assign({}, state, {sheets: action.sheets});
+        default:
+            return state
+    }
+}
+
+
+
 
 
 
 const todoApp = combineReducers({
-  session, login, register, messageModal, account, email, password
+  session, login, register, messageModal, account, email, password, newSheet, sheets
 })
 
 export default todoApp
