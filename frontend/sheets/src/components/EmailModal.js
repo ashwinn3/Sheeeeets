@@ -48,7 +48,7 @@ const _EmailModal = class extends Component {
 
 
     render() {
-        const activeClass = (this.props.isActive) ? 'modal is-active' : 'modal';
+        const activeClass = (this.props.isActive) ? 'modal' : 'modal is-active';
         const errorMessage = (this.props.emailError && !this.props.emailSuccessful) ?
             <div className='has-text-danger is-size-7 has-text-weight-bold'>
                 {this.props.emailError}

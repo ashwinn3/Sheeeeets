@@ -267,7 +267,7 @@ export function attemptPassword({username, password}) {
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
         .then((json) => {
-            const success = json.response === 'Success: Password Updated';
+            const success = json.response === 'Success';
             if (success) {
                 dispatch(togglePassword());
                 dispatch(showMessageModal('Password Update Successful!'));
@@ -304,7 +304,7 @@ export function attemptEmail({username, email}) {
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
         .then((json) => {
-            const success = json.response === 'Success: Email changed';
+            const success = json.response === 'Success';
             if (success) {
                 dispatch(toggleEmail());
                 dispatch(showMessageModal('Email Update Successful!'));
