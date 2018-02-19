@@ -18,6 +18,7 @@ export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
 
 export const _ACCOUNT_TOGGLE_PASSWORD = '_ACCOUNT_TOGGLE_PASSWORD';
 export const _ACCOUNT_TOGGLE_EMAIL = '_ACCOUNT_TOGGLE_EMAIL';
+export const ADD_ACCOUNT_INFO_TO_ACCOUNT = 'ADD_ACCOUNT_INFO_TO_ACCOUNT';
 
 export const PASSWORD_SET_VALUES = 'PASSWORD_SET_VALUES';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
@@ -92,7 +93,24 @@ export function attemptLogin(username, password) {
             const error = (isLoggedIn) ? null : 'Error logging in';
             if (isLoggedIn) {
                 dispatch(showMessageModal('Login'));
-                dispatch(addAccountInfoToSession({email: "Email", firstName: "First", lastName: "Last", username: "User"}));
+                fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getUser?username=' + username, {
+                    mode: 'cors',
+                    method: 'GET',
+                })
+                .then((response) => response.json(),
+                    (error) => console.log('An error occured.', error))
+                .then((json) => {
+                    dispatch(addAccountInfoToSession({
+                        email: json.email,
+                        firstName: json.firstName,
+                        lastName: json.lastName,
+                        username: json.username}));
+                    dispatch(addAccountInfoToAccount({
+                        email: json.email,
+                        firstName: json.firstName,
+                        lastName: json.lastName,
+                        username: json.username}))
+                })
             }
             return dispatch(receiveLogin(username, isLoggedIn, error));
         });
@@ -208,6 +226,16 @@ export function addAccountInfoToSession({username, password, firstName, lastName
         type: ADD_ACCOUNT_INFO_TO_SESSION,
         username,
         password,
+        firstName,
+        lastName,
+        email
+    }
+}
+
+export function addAccountInfoToAccount({username, firstName, lastName, email}) {
+    return {
+        type: ADD_ACCOUNT_INFO_TO_ACCOUNT,
+        username,
         firstName,
         lastName,
         email

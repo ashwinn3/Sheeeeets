@@ -6,7 +6,6 @@ import { toggleEmail, togglePassword, attemptEmail, attemptPassword, submitEmail
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        accountError: state.account.error,
         username: state.account.username,
         password: state.account.password,
         email: state.account.email,
@@ -54,11 +53,6 @@ const _AccountControl = class extends Component {
     }
 
     render() {
-        const failedText = (this.props.accountError) ?
-            <div className='has-text-danger is-size-4 has-text-weight-bold'>
-                {this.props.accountError}
-            </div>
-            : null;
         return (
             <div>
                 <h1>Name: {this.props.firstName} {this.props.lastName}</h1>
@@ -74,7 +68,6 @@ const _AccountControl = class extends Component {
                         <button onClick={this.handleTogglePassword} className='button is-primary is-inverted'>Change Password</button>
                     </p>
                 </div>
-                {failedText}
             </div>
         );
     }

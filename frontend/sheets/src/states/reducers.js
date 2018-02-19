@@ -24,6 +24,7 @@ import {
             RECEIVE_EMAIL,
             SUBMIT_EMAIL,
             _ACCOUNT_TOGGLE_EMAIL,
+            ADD_ACCOUNT_INFO_TO_ACCOUNT,
                                     } from './actions'
 
 
@@ -110,6 +111,13 @@ function account(state = defaultAccountState, action) {
             return Object.assign({}, state, {emailIsToggled: !state.emailIsToggled});
         case _ACCOUNT_TOGGLE_PASSWORD:
             return Object.assign({}, state, {passwordIsToggled: !state.passwordIsToggled});
+        case ADD_ACCOUNT_INFO_TO_ACCOUNT:
+            return Object.assign({}, state, {
+                username: action.username,
+                firstName: action.firstName,
+                lastName: action.lastName,
+                email: action.email
+            });
         case SESSION_LOGOUT:
             return Object.assign({}, defaultLoginState);
         default:
