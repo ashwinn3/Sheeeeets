@@ -41,7 +41,7 @@ const _AccountControl = class extends Component {
     constructor(props) {
         super(props);
         this.handleTogglePassword = this.handleTogglePassword.bind(this);
-        this.handleToggleEmail = this.handleToggleEmail(this);
+        this.handleToggleEmail = this.handleToggleEmail.bind(this);
     }
 
     handleTogglePassword(event) {

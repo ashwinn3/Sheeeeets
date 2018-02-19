@@ -70,7 +70,7 @@ const _PasswordModal = class extends Component {
                             <div className='control'>
                                 <input className='input'
                                     name='password'
-                                    type='password'
+                                    type='textbox'
                                     value={this.props.password}
                                     onChange={this.handleInputChange} />
                             </div>
