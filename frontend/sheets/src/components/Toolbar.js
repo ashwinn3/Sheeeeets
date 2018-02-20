@@ -31,6 +31,7 @@ const _Toolbar = withRouter(class extends Component {
     render() {
         const paths =  [
             {path:"/",name:"Dashboard"},
+            {path:"/manage",name:"Account"},
             {path:"upload",name:"Upload Profile Picture"}
         ];
         return <div>
