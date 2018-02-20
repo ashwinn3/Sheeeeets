@@ -168,6 +168,7 @@ const defaultEmailState = {
     email: '',
 }
 
+
 function email(state = defaultEmailState, action) {
     switch (action.type) {
         case UPDATE_EMAIL:

@@ -17,6 +17,7 @@ export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
 
 export const EDIT_MESSAGE_MODAL =  'EDIT_MESSAGE_MODAL';
 
+export const ADD_ACCOUNT_INFO_TO_SESSION = 'ADD_ACCOUNT_INFO_TO_SESSION';
 
 /////////// CREATING NEW SHEETS ////////////////////
 export const SUBMIT_CREATE_NEW_SHEET = 'SUBMIT_CREATE_NEW_SHEET';
@@ -82,6 +83,7 @@ export function getSheets(username) {
         });
     }
 }
+
 
 /////// CHANGING SHEET NAMES
 export const SET_NAME_OF_SHEET_BEING_EDITED = 'SET_NAME_OF_SHEET_BEING_EDITED';
@@ -408,6 +410,89 @@ export function attemptEmail({username, email}) {
 }
 
 
+export function addAccountInfoToAccount({username, firstName, lastName, email}) {
+    return {
+        type: ADD_ACCOUNT_INFO_TO_ACCOUNT,
+        username,
+        firstName,
+        lastName,
+        email
+    }
+}
+
+export function attemptPassword({username, password}) {
+    return function (dispatch) {
+        dispatch(updatePassword());
+        if(password.length < 1) {
+            const success = false;
+            const error = 'Please finish filling in the form'
+            console.log('not long enough')
+            return dispatch(receivePass(success, error));
+        }
+        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=" +
+            `${username}&newPassword=${password}`, {
+            method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+            }),
+            body: JSON.stringify({
+                name: username,
+                pass: password
+            }),
+        })
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            const success = json.response === 'Success';
+            if (success) {
+                dispatch(togglePassword());
+                dispatch(showMessageModal('Password Update Successful!'));
+                dispatch(setValuesForPassword(''));
+            }
+            const error = (success) ? null : json.response;
+            return dispatch(receivePass(success, error));
+        });
+    }
+}
+
+export function attemptEmail({username, email}) {
+    return function (dispatch) {
+        dispatch(updateEmail());
+        if(email.length < 1) {
+            const success = false;
+            const error = 'Please finish filling in the form'
+            console.log('not long enough')
+            return dispatch(receiveEmail(success, error));
+        }
+        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=" +
+            `${username}&newEmail=${email}`, {
+            method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
+            }),
+            body: JSON.stringify({
+                name: username,
+                email: email
+            }),
+        })
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            const success = json.response === 'Success';
+            if (success) {
+                dispatch(toggleEmail());
+                dispatch(showMessageModal('Email Update Successful!'));
+                dispatch(setValuesForEmail(''));
+            }
+            const error = (success) ? null : json.response;
+            return dispatch(receiveEmail(success, error));
+        });
+    }
+}
 
 export function toggleRegister() {
     return { type: _LOGIN_TOGGLE_REGISTER}
