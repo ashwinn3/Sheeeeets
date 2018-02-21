@@ -30,6 +30,7 @@ export const UPDATE_EMAIL = 'UPDATE_EMAIL';
 export const RECEIVE_EMAIL = 'RECEIVE_EMAIL';
 export const SUBMIT_EMAIL = 'SUBMIT_EMAIL';
 
+
 export const ADD_ACCOUNT_INFO_TO_SESSION = 'ADD_ACCOUNT_INFO_TO_SESSION';
 
 /////////// CREATING NEW SHEETS ////////////////////
@@ -97,6 +98,7 @@ export function getSheets(username) {
     }
 }
 
+
 /////// CHANGING SHEET NAMES
 export const SET_NAME_OF_SHEET_BEING_EDITED = 'SET_NAME_OF_SHEET_BEING_EDITED';
 export const SET_NEW_SHEET_NAME = 'SET_NEW_SHEET_NAME';
@@ -138,7 +140,6 @@ export function changeSheetName(name) {
 
 
 ///////////////////////////////////////////////////
-
 
 export function editMessageModal({show, message}) {
     return {type: EDIT_MESSAGE_MODAL, show, message};
@@ -421,8 +422,6 @@ export function attemptEmail({username, email}) {
         });
     }
 }
-
-
 
 export function toggleRegister() {
     return { type: _LOGIN_TOGGLE_REGISTER}
