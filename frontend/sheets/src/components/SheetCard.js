@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { suggestNewSheetName, changeSheetName, setNewSheetName } from '../states/actions'
+import { suggestNewSheetName, changeSheetName, setNewSheetName, deleteSheet } from '../states/actions'
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -21,6 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setNewSheetName: (sheetName) => {
             dispatch(setNewSheetName(sheetName));
         },
+        deleteSheet: (sheetName) => {
+            dispatch(deleteSheet(sheetName));
+        },
     }
 }
 
@@ -37,6 +40,9 @@ const _SheetCard = class extends Component {
     }
     handelSave(event) {
         this.props.changeSheetName(this.props.sheet);
+    }
+    handleDelete(event) {
+        this.props.deleteSheet(this.props.sheet);
     }
     handleChangeNewSheetName(event) {
         this.props.setNewSheetName(event.target.value);
@@ -79,6 +85,11 @@ const _SheetCard = class extends Component {
                             {labelOrEditInput}
                         </div>
                     </div>
+                    <p className="control is-pulled-right">
+                        <a className="button is-danger" onClick={this.handleDelete}>
+                            Delete
+                        </a>
+                    </p>
                     <div className="content">
                         <p className="title is-6">Created: 11:09 PM - 1 Jan 2016</p>
                     </div>

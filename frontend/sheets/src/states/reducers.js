@@ -41,7 +41,7 @@ import {
 const defaultSessionState = {
     isFetching: false,
     username: null,
-    isLoggedIn: false,
+    isLoggedIn: true,
     timeLoggedIn: false,
     error: null
 }

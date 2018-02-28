@@ -62,6 +62,22 @@ export function getSheets(username) {
         });
     }
 }
+export function deleteSheet(username, sheetName) {
+    return function (dispatch) {
+        dispatch(submitGetSheets());
+        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getSheets?username='
+                + sheetName, {
+                mode: 'cors',
+                method: 'GET',
+        })
+        // !!! Do not use catch !!! Catch would cause error, if error only log it
+        .then((response) => response.json(),
+            (error) => console.log('An error occurred.', error))
+        .then((json) => {
+            return dispatch(receiveGetSheets(json.names));
+        });
+    }
+}
 
 
 /////// CHANGING SHEET NAMES
