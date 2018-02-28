@@ -7,23 +7,23 @@ import {
             LOGIN_SET_USERNAME_PASSWORD,
             _LOGIN_TOGGLE_REGISTER,
             SUBMIT_LOGIN_INFO,
+
             REGISTER_SET_VALUES,
             REQUEST_REGISTER,
             RECEIVE_REGISTER,
             SUBMIT_REGISTRATION_INFO,
+
             EDIT_MESSAGE_MODAL,
+
             ADD_ACCOUNT_INFO_TO_SESSION,
-            PASSWORD_SET_VALUES,
-            UPDATE_PASSWORD,
-            RECEIVE_PASSWORD,
-            SUBMIT_PASSWORD,
+
             _ACCOUNT_TOGGLE_PASSWORD,
-            EMAIL_SET_VALUES,
-            UPDATE_EMAIL,
-            RECEIVE_EMAIL,
-            SUBMIT_EMAIL,
             _ACCOUNT_TOGGLE_EMAIL,
-            ADD_ACCOUNT_INFO_TO_ACCOUNT,
+            SET_VALUE_NEW_PASSWORD,
+            SET_VALUE_NEW_EMAIL,
+            RECEIVE_NEW_PASSWORD,
+            RECEIVE_NEW_EMAIL,
+
             SUBMIT_CREATE_NEW_SHEET,
             RECEIVE_CREATE_NEW_SHEET,
             CHANGE_NAME_NEW_SHEET,
@@ -68,7 +68,8 @@ function session(state = defaultSessionState, action) {
                 username: action.username,
                 firstName: action.firstName,
                 lastName: action.lastName,
-                email: action.email
+                email: action.email,
+                password: action.password
             });
     default:
       return state
@@ -102,92 +103,35 @@ function login(state = defaultLoginState, action) {
     }
 }
 // ==========================================
-const defaultAccountState = {
-    emailIsToggled: false,
-    passwordIsToggled: false,
-    username: null,
-    password: null,
-    email: null,
-    firstName: null,
-    lastName: null
+const defaultAccountManagerState = {
+    changeEmailModalIsToggled: false,
+    changePasswordModalIsToggled: false,
+    newPassword: null,
+    newEmail: null,
+    error: null,
 }
 
-function account(state = defaultAccountState, action) {
+function accountManager(state = defaultAccountManagerState, action) {
     switch (action.type) {
         case _ACCOUNT_TOGGLE_EMAIL:
-            return Object.assign({}, state, {emailIsToggled: !state.emailIsToggled});
+            return Object.assign({}, state, {changeEmailModalIsToggled: !state.changeEmailModalIsToggled, error:null});
         case _ACCOUNT_TOGGLE_PASSWORD:
-            return Object.assign({}, state, {passwordIsToggled: !state.passwordIsToggled});
-        case ADD_ACCOUNT_INFO_TO_ACCOUNT:
-            return Object.assign({}, state, {
-                username: action.username,
-                firstName: action.firstName,
-                lastName: action.lastName,
-                email: action.email
-            });
+            return Object.assign({}, state, {changePasswordModalIsToggled: !state.changePasswordModalIsToggled, error:null});
         case SESSION_LOGOUT:
             return Object.assign({}, defaultLoginState);
+        case SET_VALUE_NEW_PASSWORD:
+            return Object.assign({}, state, {newPassword: action.password});
+        case SET_VALUE_NEW_EMAIL:
+            return Object.assign({}, state, {newEmail: action.email});
+        case RECEIVE_NEW_PASSWORD:
+            return Object.assign({}, state, {error: action.error});
+        case RECEIVE_NEW_EMAIL:
+            return Object.assign({}, state, {error: action.error});
         default:
             return state
     }
 }
 
-const defaultPasswordState = {
-    isUpdatePassword: false,
-    wasSuccessful: true,
-    error: null,
-    username: null,
-    password: '',
-}
-
-function password(state = defaultPasswordState, action) {
-    switch (action.type) {
-        case UPDATE_PASSWORD:
-            return Object.assign({}, state, {isUpdatePassword: true});
-        case SUBMIT_PASSWORD:
-            const obj = {};
-            obj[action.key] = action.value;
-            return Object.assign({}, state, obj);
-        case RECEIVE_PASSWORD:
-            return Object.assign({}, state, {isUpdatePassword: false, wasSuccessful: action.wasSuccessful,
-                error: action.error});
-        case PASSWORD_SET_VALUES:
-            return Object.assign({}, state, {username: action.username, password: action.password});
-        case SESSION_LOGOUT:
-            return Object.assign({}, defaultRegisterState);
-        default:
-            return state
-    }
-}
-
-const defaultEmailState = {
-    isUpdateEmail: false,
-    wasSuccessful: true,
-    error: null,
-    username: null,
-    email: '',
-}
-
-
-function email(state = defaultEmailState, action) {
-    switch (action.type) {
-        case UPDATE_EMAIL:
-            return Object.assign({}, state, {isUpdateEmail: true});
-        case SUBMIT_EMAIL:
-            const obj = {};
-            obj[action.key] = action.value;
-            return Object.assign({}, state, obj);
-        case RECEIVE_EMAIL:
-            return Object.assign({}, state, {isUpdateEmail: false, wasSuccessful: action.wasSuccessful,
-                error: action.error});
-        case EMAIL_SET_VALUES:
-            return Object.assign({}, state, {username: action.username, email: action.email});
-        case SESSION_LOGOUT:
-            return Object.assign({}, defaultRegisterState);
-        default:
-            return state
-    }
-}
 
 // ==========================================
 const defaultRegisterState = {
@@ -279,7 +223,7 @@ function sheets(state = defaultSheetState, action) {
 
 
 const todoApp = combineReducers({
-  session, login, register, messageModal, account, email, password, newSheet, sheets
+  session, login, register, messageModal, accountManager, newSheet, sheets
 })
 
 export default todoApp

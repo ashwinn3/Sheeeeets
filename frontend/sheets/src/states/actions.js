@@ -1,37 +1,3 @@
-/*
- * action types
- */
-export const SESSION_REQUEST_LOGIN = 'SESSION_REQUEST_LOGIN';
-export const SESSION_RECEIVE_LOGIN = 'SESSION_RECEIVE_LOGIN';
-export const SESSION_LOGOUT = 'SESSION_LOGOUT';
-
-export const LOGIN_SET_USERNAME_PASSWORD = 'LOGIN_SET_USERNAME_PASSWORD';
-export const _LOGIN_TOGGLE_REGISTER = '_LOGIN_TOGGLE_REGISTER';
-export const SUBMIT_LOGIN_INFO = 'SUBMIT_LOGIN_INFO';
-
-
-export const REGISTER_SET_VALUES =  'REGISTER_SET_VALUES';
-export const REQUEST_REGISTER =  'REQUEST_REGISTER';
-export const RECEIVE_REGISTER =  'RECEIVE_REGISTER';
-export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
-
-export const EDIT_MESSAGE_MODAL =  'EDIT_MESSAGE_MODAL';
-export const _ACCOUNT_TOGGLE_PASSWORD = '_ACCOUNT_TOGGLE_PASSWORD';
-export const _ACCOUNT_TOGGLE_EMAIL = '_ACCOUNT_TOGGLE_EMAIL';
-export const ADD_ACCOUNT_INFO_TO_ACCOUNT = 'ADD_ACCOUNT_INFO_TO_ACCOUNT';
-
-export const PASSWORD_SET_VALUES = 'PASSWORD_SET_VALUES';
-export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
-export const RECEIVE_PASSWORD = 'RECEIVE_PASSWORD';
-export const SUBMIT_PASSWORD = 'SUBMIT_PASSWORD';
-
-export const EMAIL_SET_VALUES = 'EMAIL_SET_VALUES';
-export const UPDATE_EMAIL = 'UPDATE_EMAIL';
-export const RECEIVE_EMAIL = 'RECEIVE_EMAIL';
-export const SUBMIT_EMAIL = 'SUBMIT_EMAIL';
-
-
-export const ADD_ACCOUNT_INFO_TO_SESSION = 'ADD_ACCOUNT_INFO_TO_SESSION';
 
 /////////// CREATING NEW SHEETS ////////////////////
 export const SUBMIT_CREATE_NEW_SHEET = 'SUBMIT_CREATE_NEW_SHEET';
@@ -92,7 +58,6 @@ export function getSheets(username) {
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
         .then((json) => {
-            console.log(json);
             return dispatch(receiveGetSheets(json.names));
         });
     }
@@ -139,7 +104,8 @@ export function changeSheetName(name) {
 
 
 
-///////////////////////////////////////////////////
+////////////// POP UP MESSAGE MODAL //////////////////////
+export const EDIT_MESSAGE_MODAL =  'EDIT_MESSAGE_MODAL';
 
 export function editMessageModal({show, message}) {
     return {type: EDIT_MESSAGE_MODAL, show, message};
@@ -156,8 +122,11 @@ export function showMessageModal(message) {
     }
 }
 
-///////////////////////////////////////////////////
-
+/////////////////  LOGGIN IN   /////////////////////////////
+export const SESSION_REQUEST_LOGIN = 'SESSION_REQUEST_LOGIN';
+export const SESSION_RECEIVE_LOGIN = 'SESSION_RECEIVE_LOGIN';
+export const LOGIN_SET_USERNAME_PASSWORD = 'LOGIN_SET_USERNAME_PASSWORD';
+export const SUBMIT_LOGIN_INFO = 'SUBMIT_LOGIN_INFO';
 
 export function requestLogin(username) {
     return {
@@ -200,30 +169,27 @@ export function attemptLogin(username, password) {
             const isLoggedIn = (json.response === 'Login Success');
             const error = (isLoggedIn) ? null : 'Error logging in';
             if (isLoggedIn) {
-                dispatch(showMessageModal('Login'));
-                fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getUser?username=' + username, {
-                    mode: 'cors',
-                    method: 'GET',
-                })
-                .then((response) => response.json(),
-                    (error) => console.log('An error occured.', error))
-                .then((json) => {
-                    dispatch(addAccountInfoToSession({
-                        email: json.email,
-                        firstName: json.firstName,
-                        lastName: json.lastName,
-                        username: json.username}));
-                    dispatch(addAccountInfoToAccount({
-                        email: json.email,
-                        firstName: json.firstName,
-                        lastName: json.lastName,
-                        username: json.username}))
-                })
+                dispatch(getUser(username, password));
+                dispatch(showMessageModal('Login Successful'));
             }
             return dispatch(receiveLogin(username, isLoggedIn, error));
         });
     }
 }
+export function setUsernamePassword(username, password) {
+    return { type: LOGIN_SET_USERNAME_PASSWORD, username, password}
+}
+
+export function submitLoginInfo(key, value) {
+    return {
+        type: SUBMIT_LOGIN_INFO,
+        key,
+        value,
+    }
+}
+
+///////////////// Log out /////////////////////
+export const SESSION_LOGOUT = 'SESSION_LOGOUT';
 
 export function requestLogout() {
     return function (dispatch) {
@@ -237,7 +203,52 @@ export function logout() {
     }
 }
 
+/////////////////// Get User Info ////////////////////
+export const ADD_ACCOUNT_INFO_TO_SESSION = 'ADD_ACCOUNT_INFO_TO_SESSION';
 
+export function getUser(username, password) {
+    return function (dispatch) {
+
+        fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getUser?username=' + username, {
+                mode: 'cors',
+                method: 'GET',
+            })
+            .then((response) => response.json(),
+                (error) => console.log('An error occured.', error))
+            .then((json) => {
+                dispatch(addAccountInfoToSession({
+                    email: json.email,
+                    firstName: json.firstName,
+                    lastName: json.lastName,
+                    username,
+                    password,
+                }));
+        })
+    }
+}
+export function addAccountInfoToSession({username, password, firstName, lastName, email}) {
+    return {
+        type: ADD_ACCOUNT_INFO_TO_SESSION,
+        username,
+        password,
+        firstName,
+        lastName,
+        email
+    }
+}
+
+//////////// REGISTER //////////////////
+
+export const REGISTER_SET_VALUES =  'REGISTER_SET_VALUES';
+export const REQUEST_REGISTER =  'REQUEST_REGISTER';
+export const RECEIVE_REGISTER =  'RECEIVE_REGISTER';
+export const SUBMIT_REGISTRATION_INFO =  'SUBMIT_REGISTRATION_INFO';
+export const _LOGIN_TOGGLE_REGISTER = '_LOGIN_TOGGLE_REGISTER';
+
+
+export function toggleRegister() {
+    return { type: _LOGIN_TOGGLE_REGISTER}
+}
 
 export function requestRegister() {
     return {
@@ -258,33 +269,8 @@ export function submitRegistrationInfo(key, value) {
         value,
     }
 }
-
-export function updateEmail() {
-    return {
-        type: UPDATE_EMAIL
-    }
-}
-
-export function receiveEmail(success, error) {
-    return {
-        type: RECEIVE_EMAIL,
-        wasSuccessful: success,
-        error,
-    }
-}
-
-export function updatePassword() {
-    return {
-        type: UPDATE_PASSWORD
-    }
-}
-
-export function receivePass(success, error) {
-    return {
-        type: RECEIVE_PASSWORD,
-        wasSuccessful: success,
-        error,
-    }
+export function setValuesForRegister(username, password, firstName, lastName, email) {
+    return { type: REGISTER_SET_VALUES, username, password, firstName, lastName, email}
 }
 
 export function attemptRegister({username, password, firstName, lastName, email}) {
@@ -299,18 +285,7 @@ export function attemptRegister({username, password, firstName, lastName, email}
         return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/register?username=" +
             `${username}&password=${password}&email=${email}&firstName=${firstName}&lastName=${lastName}`, {
             method: "POST",
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:8080',
-            }),
-            body: JSON.stringify({
-                name : username,
-                pass : password,
-                first : firstName,
-                last : lastName,
-                email : email
-            }),
+            mode: 'cors',
         })
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
@@ -328,74 +303,70 @@ export function attemptRegister({username, password, firstName, lastName, email}
     }
 }
 
-export function addAccountInfoToSession({username, password, firstName, lastName, email}) {
-    return {
-        type: ADD_ACCOUNT_INFO_TO_SESSION,
-        username,
-        password,
-        firstName,
-        lastName,
-        email
-    }
-}
+//////////// CHANGE PASSWORD //////////////////
+export const _ACCOUNT_TOGGLE_PASSWORD = '_ACCOUNT_TOGGLE_PASSWORD';
+export const SET_VALUE_NEW_PASSWORD = 'SET_VALUE_NEW_PASSWORD';
+export const RECEIVE_NEW_PASSWORD = 'RECEIVE_NEW_PASSWORD';
+export const SUBMIT_NEW_PASSWORD = 'SUBMIT_NEW_PASSWORD';
 
-export function addAccountInfoToAccount({username, firstName, lastName, email}) {
-    return {
-        type: ADD_ACCOUNT_INFO_TO_ACCOUNT,
-        username,
-        firstName,
-        lastName,
-        email
-    }
-}
 
-export function attemptPassword({username, password}) {
+export function attemptChangePassword({username, password}) {
     return function (dispatch) {
-        dispatch(updatePassword());
         if(password.length < 1) {
-            const success = false;
-            const error = 'Please finish filling in the form'
-            console.log('not long enough')
-            return dispatch(receivePass(success, error));
+            dispatch(receiveNewPassword({error:'Please finish filling in the form'}));
+                return;
         }
         return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=" +
             `${username}&newPassword=${password}`, {
             method: "POST",
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:8080',
-            }),
-            body: JSON.stringify({
-                name: username,
-                pass: password
-            }),
+            mode: 'cors',
         })
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
         .then((json) => {
-            const success = json.response === 'Success';
-            if (success) {
-                dispatch(togglePassword());
+            if (json.response === 'Success') {
+                dispatch(getUser(username, password));
+                dispatch(toggleChangePasswordModal());
                 dispatch(showMessageModal('Password Update Successful!'));
-                dispatch(setValuesForPassword(''));
+                dispatch(changeValueNewPassword(''));
+                dispatch(receiveNewPassword({error:null}));
             }
-            const error = (success) ? null : json.response;
-            return dispatch(receivePass(success, error));
+            return;
         });
     }
 }
+function receiveNewPassword({error}) {
+    return {
+        type: RECEIVE_NEW_PASSWORD,
+        error,
+    }
+}
+export function toggleChangePasswordModal() {
+    return {
+        type: _ACCOUNT_TOGGLE_PASSWORD
+    }
+}
 
-export function attemptEmail({username, email}) {
+export function changeValueNewPassword(password) {
+    return {
+        type: SET_VALUE_NEW_PASSWORD,
+        password
+    }
+}
+
+////////// CHANGE EMAIL //////////////////
+export const _ACCOUNT_TOGGLE_EMAIL = '_ACCOUNT_TOGGLE_EMAIL';
+export const SET_VALUE_NEW_EMAIL = 'SET_VALUE_NEW_EMAIL';
+export const RECEIVE_NEW_EMAIL = 'RECEIVE_NEW_EMAIL';
+export const SUBMIT_NEW_EMAIL = 'SUBMIT_NEW_EMAIL';
+
+export function attemptChangeEmail({username, email, password}) {
     return function (dispatch) {
-        dispatch(updateEmail());
         if(email.length < 1) {
-            const success = false;
-            const error = 'Please finish filling in the form'
-            console.log('not long enough')
-            return dispatch(receiveEmail(success, error));
+            dispatch(receiveNewEmail({error:'Please finish filling in the form'}));
+            return;
         }
-        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changePassword?username=" +
+        return fetch("http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/changeEmail?username=" +
             `${username}&newEmail=${email}`, {
             method: "POST",
             headers: new Headers({
@@ -413,70 +384,33 @@ export function attemptEmail({username, email}) {
         .then((json) => {
             const success = json.response === 'Success';
             if (success) {
-                dispatch(toggleEmail());
+                dispatch(getUser(username, password));
+                dispatch(toggleChangeEmailModal());
                 dispatch(showMessageModal('Email Update Successful!'));
-                dispatch(setValuesForEmail(''));
+                dispatch(changeValueNewEmail(''));
+                dispatch(receiveNewEmail({error:null}));
             }
-            const error = (success) ? null : json.response;
-            return dispatch(receiveEmail(success, error));
         });
     }
 }
-
-export function toggleRegister() {
-    return { type: _LOGIN_TOGGLE_REGISTER}
-}
-
-export function togglePassword() {
+function receiveNewEmail({error}) {
     return {
-        type: _ACCOUNT_TOGGLE_PASSWORD
+        type: RECEIVE_NEW_EMAIL,
+        error,
     }
 }
 
-export function toggleEmail() {
+export function toggleChangeEmailModal() {
     return {
         type: _ACCOUNT_TOGGLE_EMAIL
     }
 }
 
-export function setUsernamePassword(username, password) {
-    return { type: LOGIN_SET_USERNAME_PASSWORD, username, password}
-}
-
-export function submitLoginInfo(key, value) {
+export function changeValueNewEmail(email) {
     return {
-        type: SUBMIT_LOGIN_INFO,
-        key,
-        value,
+        type: SET_VALUE_NEW_EMAIL,
+        email
     }
-}
-
-export function submitEmail(key, value) {
-    return {
-        type: SUBMIT_EMAIL,
-        key,
-        value
-    }
-}
-
-export function submitPassword(key, value) {
-    return {
-        type: SUBMIT_PASSWORD,
-        key,
-        value
-    }
-}
-
-export function setValuesForRegister(username, password, firstName, lastName, email) {
-    return { type: REGISTER_SET_VALUES, username, password, firstName, lastName, email}
-}
-
-export function setValuesForEmail(username, email) {
-    return { type: EMAIL_SET_VALUES, username, email}
-}
-
-export function setValuesForPassword(username, password) {
-    return { type: PASSWORD_SET_VALUES, username, password}
 }
 
 
