@@ -65,8 +65,8 @@ export function getSheets(username) {
 export function deleteSheet(username, sheetName) {
     return function (dispatch) {
         dispatch(submitGetSheets());
-        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/getSheets?username='
-                + sheetName, {
+        return fetch('http://default-environment.c2nuqptw9f.us-east-2.elasticbeanstalk.com/deleteSheet?username='
+                + username + '&title=' + sheetName, {
                 mode: 'cors',
                 method: 'GET',
         })
@@ -74,10 +74,11 @@ export function deleteSheet(username, sheetName) {
         .then((response) => response.json(),
             (error) => console.log('An error occurred.', error))
         .then((json) => {
-            return dispatch(receiveGetSheets(json.names));
+            return dispatch(getSheets(username));
         });
     }
 }
+
 
 
 /////// CHANGING SHEET NAMES

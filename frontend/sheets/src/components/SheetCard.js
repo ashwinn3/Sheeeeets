@@ -5,8 +5,9 @@ import { suggestNewSheetName, changeSheetName, setNewSheetName, deleteSheet } fr
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        username: state.session.username,
         sheetBeingEdited: state.sheets.sheetBeingEdited,
-        newSheetName: state.sheets.newSheetName
+        newSheetName: state.sheets.newSheetName,
     }
 }
 
@@ -21,8 +22,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setNewSheetName: (sheetName) => {
             dispatch(setNewSheetName(sheetName));
         },
-        deleteSheet: (sheetName) => {
-            dispatch(deleteSheet(sheetName));
+        deleteSheet: (username, sheetName) => {
+            dispatch(deleteSheet(username, sheetName));
         },
     }
 }
@@ -32,6 +33,7 @@ const _SheetCard = class extends Component {
         super(...props);
         this.handelEdit = this.handelEdit.bind(this);
         this.handelSave = this.handelSave.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.handleChangeNewSheetName = this.handleChangeNewSheetName.bind(this);
 
     }
@@ -42,7 +44,7 @@ const _SheetCard = class extends Component {
         this.props.changeSheetName(this.props.sheet);
     }
     handleDelete(event) {
-        this.props.deleteSheet(this.props.sheet);
+        this.props.deleteSheet(this.props.username, this.props.sheet);
     }
     handleChangeNewSheetName(event) {
         this.props.setNewSheetName(event.target.value);
