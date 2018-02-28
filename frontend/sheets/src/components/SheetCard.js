@@ -44,25 +44,24 @@ const _SheetCard = class extends Component {
 
 
     render() {
-        console.log(this.props.sheet);
         const labelOrEditInput = (this.props.sheet !== this.props.sheetBeingEdited) ?
-            <div class="field is-grouped">
+            <div className="field is-grouped">
                 <p className="control title is-4 is-expanded" style={{color:'black'}}>
                     {this.props.sheet}
                 </p>
-                <p class="control is-pulled-right">
-                    <a class="button is-info" onClick={this.handelEdit}>
+                <p className="control is-pulled-right">
+                    <a className="button is-info" onClick={this.handelEdit}>
                         Edit Name
                     </a>
                 </p>
             </div>
             :
-            <div class="field is-grouped">
-                <p class="control is-expanded">
-                    <input class="input" type="text" value={this.props.newSheetName} onChange={this.handleChangeNewSheetName}/>
+            <div className="field is-grouped">
+                <p className="control is-expanded">
+                    <input className="input" type="text" value={this.props.newSheetName} onChange={this.handleChangeNewSheetName}/>
                 </p>
-                <p class="control">
-                    <a class="button is-info" onClick={this.handelSave}>
+                <p className="control">
+                    <a className="button is-info" onClick={this.handelSave}>
                         Save
                     </a>
                 </p>
@@ -71,7 +70,7 @@ const _SheetCard = class extends Component {
             <div className="card">
                 <div className="card-image">
                     <figure className="image is-4by3">
-                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image"/>
+                        <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder"/>
                     </figure>
                 </div>
                 <div className="card-content">
