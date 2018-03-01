@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { suggestNewSheetName, changeSheetName, setNewSheetName, deleteSheet } from '../states/actions'
+import Moment from 'react-moment';
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,8 +17,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         suggestNewSheetName: (sheetName) => {
             dispatch(suggestNewSheetName(sheetName));
         },
-        changeSheetName: (sheetName) => {
-            dispatch(changeSheetName(sheetName));
+        changeSheetName: (username, sheetName, newSheetName) => {
+            dispatch(changeSheetName(username, sheetName, newSheetName));
         },
         setNewSheetName: (sheetName) => {
             dispatch(setNewSheetName(sheetName));
@@ -41,7 +42,7 @@ const _SheetCard = class extends Component {
         this.props.suggestNewSheetName(this.props.sheet);
     }
     handelSave(event) {
-        this.props.changeSheetName(this.props.sheet);
+        this.props.changeSheetName(this.props.username, this.props.sheet, this.props.newSheetName);
     }
     handleDelete(event) {
         this.props.deleteSheet(this.props.username, this.props.sheet);
@@ -93,7 +94,9 @@ const _SheetCard = class extends Component {
                         </a>
                     </p>
                     <div className="content">
-                        <p className="title is-6">Created: 11:09 PM - 1 Jan 2016</p>
+                        <p className="title is-6">
+                            Created <Moment>{this.props.date}</Moment>
+                        </p>
                     </div>
                 </div>
             </div>
