@@ -32,6 +32,22 @@ export function createNewSheet(name, username) {
 }
 ///////////////////////////////////////////////////
 
+/////////////// HANDLEING  A SINGLE SHEETS ////////
+export const OPEN_THIS_SHEET = 'OPEN_THIS_SHEET';
+
+export function openSheet(sheet) {
+    return {type: OPEN_THIS_SHEET, sheet};
+}
+
+
+
+
+
+
+
+
+
+
 /////////////// HANDLEING SHEETS //////////////////
 export const SUBMIT_GET_SHEETS = 'SUBMIT_GET_SHEETS';
 export const RECEIVE_GET_SHEETS = 'RECEIVE_GET_SHEETS';
