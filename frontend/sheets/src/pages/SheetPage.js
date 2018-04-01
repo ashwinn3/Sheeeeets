@@ -2,18 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import NewSheetInput from '../components/NewSheetInput'
 import SheetList from '../components/SheetList'
-import {  } from '../states/actions'
+import { getSheetJSON, saveSheetJSON } from '../states/actions'
 import ReactDataSheet from 'react-datasheet';
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        username: state.session.username,
         sheetName: state.sheetPage.sheetName,
         sheetJSON: state.sheetPage.JSON
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
+    return{
+        getSheetJSON: (username, sheet) => {
+            dispatch(getSheetJSON(username, sheet));
+        },
+        saveSheetJSON: (username, sheet, json) => {
+            dispatch(saveSheetJSON(username, sheet, json));
+        },
     }
 }
 
@@ -46,6 +53,7 @@ const _SheetPage = class extends Component {
         super(props)
         this.sheetObject = this.createSheet(sampleJSON);
         this.sheetObject.addData();
+        this.props.getSheetJSON(this.props.username, this.props.sheetName);
     }
     createSheet(json) {
         const iface = {
@@ -120,13 +128,20 @@ const _SheetPage = class extends Component {
         }
         iface.update = () => {
             iface.emptyTable();
-            iface.addData(json);
+            iface.addData(iface._json);
             this.forceUpdate();
+            console.log(iface._json);
         }
         iface.changeCell = ({cell, row, col, value}) => {
+            if (!iface._json.columns[col]) {
+                iface._json.columns[col] = {rows: {}}
+            }
             iface._json.columns[col].rows[row] = value;
             iface.update();
-            console.log(iface._json)
+            this.props.saveSheetJSON(this.props.username, this.props.sheetName, iface._json);
+        }
+        iface.export = () => {
+            return iface._json;
         }
         return iface;
     }

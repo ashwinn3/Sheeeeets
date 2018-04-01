@@ -92,7 +92,7 @@ class _App extends Component {
                 <div className="is-fullheight">
                     <Switch>
                         <Route exact path="/login" render={(props) => (
-                            <SheetPage {...props}/>)} />
+                            <LoginPage {...props}/>)} />
                         <Route component={RedirectLogin}/>
                     </Switch>;
                 </div>
