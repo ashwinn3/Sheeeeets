@@ -40,6 +40,9 @@ const _SheetPage = class extends Component {
             get: () => {
                 return iface.table;
             },
+            getColumns: () => {
+                return iface.columns;
+            },
             _json: json,
         };
         let maxRow = 2;
@@ -105,6 +108,13 @@ const _SheetPage = class extends Component {
                     iface.table[row][column].value = iface._json.columns[column].rows[row];
                 }
             }
+            // Create column array
+            iface.columns = [];
+            for (let i = 0; i < maxColumn; i++) {
+                const type = (iface._json.columns[i]) ? iface._json.columns[i].dataType: 'String';
+                iface.columns.push(type);
+            }
+
         }
 
         iface.addRow = () => {
@@ -141,13 +151,19 @@ const _SheetPage = class extends Component {
         this.props.removeCurrentSheetInfo();
     }
 
+    componentWillUpdate() {
+        console.log('here');
+        console.log(this.props.sheetJSON);
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
 
-
-    columns = ['1', '2'];
     render() {
         this.sheetObject.setJSON(this.props.sheetJSON);
         this.sheetObject.updateTable();
         const sheet = this.sheetObject.get()
+        const columns = this.sheetObject.getColumns()
         return <div className="section">
                     <div className='title'>{this.props.sheetName}</div>
                     <ReactDataSheet
@@ -162,7 +178,7 @@ const _SheetPage = class extends Component {
                             <table className={props.className + ' my-awesome-extra-class'}>
                                 <thead>
                                     <tr>
-                                        {this.columns.map((col, i) => {
+                                        {columns.map((col, i) => {
                                             return (<th key={i}>{col}</th>)
                                         })}
                                     </tr>
