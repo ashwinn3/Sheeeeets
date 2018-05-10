@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
 import {  } from '../states/actions'
 
 const ToolbarButton = withRouter(class extends Component {
@@ -12,9 +11,6 @@ const ToolbarButton = withRouter(class extends Component {
     }
 
     pushNewHistroy = () => {
-        console.log(this.props)
-        console.log(this.state.path);
-        console.log(this.props.history.location.pathname);
         if (this.props.history.location.pathname
             !== this.state.path)
         {

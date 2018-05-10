@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import 'bulma/css/bulma.css';
+import 'react-datasheet/lib/react-datasheet.css';
 import { connect } from 'react-redux'
 
 import Toolbar from './components/Toolbar.js';
 import LoginPage from './pages/LoginPage.js';
 import Dashboard from './pages/Dashboard.js';
 import NotFound from './pages/NotFound.js';
+import AccountManage from './pages/AccountManage.js';
+import SheetPage from './pages/SheetPage.js';
+import NotificationMessage from './widgets/NotificationMessage.js';
+
+import {  } from './states/actions'
+
 
 const mapStateToProps = (state, ownProps) => {
     return {
         isLoggedIn: state.session.isLoggedIn,
+        messageModalContent: state.messageModal.message,
+        shouldModalContent: state.messageModal.show,
     }
 }
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+
+    }
+}
+
 
 const RedirectHome = class extends Component {
     render() {
@@ -56,6 +71,8 @@ class _App extends Component {
 
     render() {
         let elements;
+        const messageModal = (this.props.shouldModalContent) ? <NotificationMessage message={this.props.messageModalContent}/> : null
+
         if (this.props.isLoggedIn) {
             elements = (
                 <div>
@@ -64,13 +81,15 @@ class _App extends Component {
                         <Route exact path="/" render={(props) => (
                             <Dashboard/>)} />
                         <Route path="/login" component={RedirectHome}/>
+                        <Route path="/manage" component={AccountManage}/>
+                        <Route path="/sheet/:sheetname" component={SheetPage}/>
                         <Route path="*" component={NotFound}/>
                     </Switch>
                 </div>
             );
         } else {
             elements =
-                <div>
+                <div className="is-fullheight">
                     <Switch>
                         <Route exact path="/login" render={(props) => (
                             <LoginPage {...props}/>)} />
@@ -81,6 +100,7 @@ class _App extends Component {
         return (
             <BrowserRouter>
                 <div className="App">
+                    {messageModal}
                     {elements}
                 </div>
             </BrowserRouter>
@@ -88,7 +108,7 @@ class _App extends Component {
 
     }
 }
-const App = connect(mapStateToProps)(_App)
+const App = connect(mapStateToProps, mapDispatchToProps)(_App)
 
 export default App;
 

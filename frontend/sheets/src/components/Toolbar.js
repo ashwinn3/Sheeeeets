@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import ToolbarButton from "../widgets/ToolbarButton.js"
 import { requestLogout } from '../states/actions'
+import {  } from '../states/actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -30,6 +31,7 @@ const _Toolbar = withRouter(class extends Component {
     render() {
         const paths =  [
             {path:"/",name:"Dashboard"},
+            {path:"/manage",name:"Account"},
             {path:"upload",name:"Upload Profile Picture"}
         ];
         return <div>

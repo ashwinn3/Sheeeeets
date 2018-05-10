@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import NameForm from '../widgets/NameForm.js';
-import { toggleRegister, attemptLogin, setUsernamePassword } from '../states/actions'
+import { toggleRegister, attemptLogin, submitLoginInfo } from '../states/actions'
 
-const hash = require('js-hash-code');
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -22,9 +20,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         toggleRegister: (val) => {
             dispatch(toggleRegister(val));
         },
-        setUsernamePassword: (username, password)  => {
-            dispatch(setUsernamePassword(username, password));
-        }
+        submitLoginInfo: (key, value) => {
+            dispatch(submitLoginInfo(key, value));
+        },
     }
 }
 
@@ -33,6 +31,7 @@ const _LoginControl = class extends Component {
         super(props);
         this.handleLoginClick = this.handleLoginClick.bind(this);
         this.handleToggleRegister = this.handleToggleRegister.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleLoginClick(event) {
@@ -41,6 +40,10 @@ const _LoginControl = class extends Component {
 
     handleToggleRegister(event) {
         this.props.toggleRegister();
+    }
+
+    handleInputChange(event) {
+        this.props.submitLoginInfo(event.target.name, event.target.value);
     }
 
     render() {
@@ -52,14 +55,36 @@ const _LoginControl = class extends Component {
         return (
             <div>
                 <h1 className='title'>Please sign in.</h1>
-                <NameForm setMethod={this.props.setUsernamePassword} label1='Username' label2='Password'/>
+                <form>
+                    <div className="field">
+                        <label className="label">Username</label>
+                        <div className="control">
+                            <input className="input"
+                                name="username"
+                                type="textbox"
+                                value={this.props.user}
+                                onChange={this.handleInputChange} />
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <label className="label">Password</label>
+                        <div className="control">
+                            <input className="input"
+                                name="password"
+                                type="password"
+                                value={this.props.password}
+                                onChange={this.handleInputChange} />
+                        </div>
+                    </div>
+                </form>
                 <br/>
-                <div className='field is-grouped'>
+                <div className='field is-grouped is-grouped-centered'>
                     <p className='control'>
-                        <button onClick={this.handleLoginClick} className='button is-success'>Login</button>
+                        <button onClick={this.handleLoginClick} className='button is-primary is-inverted'>Login</button>
                     </p>
                     <p className='control'>
-                        <button onClick={this.handleToggleRegister} className='button is-link'>Register</button>
+                        <button onClick={this.handleToggleRegister} className='button is-primary is-inverted'>Register</button>
                     </p>
                 </div>
                 {failedText}
